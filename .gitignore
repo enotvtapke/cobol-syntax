@@ -1,0 +1,17 @@
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+.kotlin
+
+### IntelliJ IDEA ###
+.idea
+
+## File-based project format:
+*.ipr
+*.iws
+
+### Gradle template
+_idea-sandbox/
+.intellijPlatform

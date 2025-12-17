@@ -1,0 +1,20 @@
+{
+  parserClass="github.enotvtapke.cobolsyntax.psi.parser.CobolParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Cobol"
+  psiImplClassSuffix="Impl"
+  psiPackage="github.enotvtapke.cobolsyntax.psi"
+  psiImplPackage="github.enotvtapke.cobolsyntax.psi.impl"
+
+  elementTypeHolderClass="github.enotvtapke.cobolsyntax.psi.CobolTypes"
+  elementTypeClass="github.enotvtapke.cobolsyntax.psi.CobolElementType"
+  tokenTypeClass="github.enotvtapke.cobolsyntax.psi.CobolTokenType"
+}
+
+simpleFile ::= item_*
+
+private item_ ::= (property|COMMENT|CRLF)
+
+property ::= (KEY? SEPARATOR VALUE?) | KEY
