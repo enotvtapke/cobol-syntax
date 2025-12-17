@@ -49,12 +49,11 @@ internal class CobolColorSettingsPage : ColorSettingsPage {
         return "Cobol"
     }
 
-    companion object {
-        private val DESCRIPTORS = arrayOf<AttributesDescriptor>(
-            AttributesDescriptor("Key", CobolSyntaxHighlighter.KEY),
-            AttributesDescriptor("Separator", CobolSyntaxHighlighter.SEPARATOR),
-            AttributesDescriptor("Value", CobolSyntaxHighlighter.VALUE),
-            AttributesDescriptor("Bad value", CobolSyntaxHighlighter.BAD_CHARACTER)
-        )
-    }
 }
+
+private val DESCRIPTORS = arrayOf(
+    AttributesDescriptor("Key", CobolSyntaxHighlighter.KEY),
+    AttributesDescriptor("Separator", CobolSyntaxHighlighter.SEPARATOR),
+    AttributesDescriptor("Value", CobolSyntaxHighlighter.VALUE),
+    AttributesDescriptor("Bad value", CobolSyntaxHighlighter.BAD_CHARACTER)
+)

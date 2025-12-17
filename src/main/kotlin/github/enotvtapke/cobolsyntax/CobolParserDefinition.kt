@@ -44,7 +44,6 @@ class CobolParserDefinition : ParserDefinition {
         return CobolTypes.Factory.createElement(node)
     }
 
-    companion object {
-        val FILE: IFileElementType = IFileElementType(CobolLanguage)
-    }
 }
+
+val FILE = IFileElementType(CobolLanguage)
