@@ -2,10 +2,45 @@ package github.enotvtapke.cobolsyntax.psi
 
 import com.intellij.psi.tree.TokenSet
 
-interface CobolTokenSets {
-    companion object {
-        val IDENTIFIERS: TokenSet = TokenSet.create(CobolTypes.KEY)
+object CobolTokenSets {
+    val IDENTIFIERS: TokenSet = TokenSet.create(CobolTypes.IDENTIFIER)
 
-        val COMMENTS: TokenSet = TokenSet.create(CobolTypes.COMMENT)
-    }
+    val COMMENTS: TokenSet = TokenSet.create(CobolTypes.COMMENT)
+
+    val KEYWORDS: TokenSet = TokenSet.create(
+        CobolTypes.IDENTIFICATION,
+        CobolTypes.DIVISION,
+        CobolTypes.PROGRAM_ID,
+        CobolTypes.DATA,
+        CobolTypes.WORKING_STORAGE,
+        CobolTypes.SECTION,
+        CobolTypes.PROCEDURE,
+        CobolTypes.PIC,
+        CobolTypes.IS,
+        CobolTypes.VALUE,
+        CobolTypes.PERFORM,
+        CobolTypes.VARYING,
+        CobolTypes.FROM,
+        CobolTypes.BY,
+        CobolTypes.UNTIL,
+        CobolTypes.STOP,
+        CobolTypes.RUN,
+        CobolTypes.DISPLAY
+    )
+
+    val STRINGS: TokenSet = TokenSet.create(CobolTypes.STRING)
+
+    val NUMBERS: TokenSet = TokenSet.create(CobolTypes.INTEGER)
+
+    val PICTURE_STRINGS: TokenSet = TokenSet.create(CobolTypes.PICTURE_STRING)
+
+    val OPERATORS: TokenSet = TokenSet.create(
+        CobolTypes.EQ
+    )
+
+    val PUNCTUATION: TokenSet = TokenSet.create(
+        CobolTypes.DOT,
+        CobolTypes.LPAREN,
+        CobolTypes.RPAREN
+    )
 }

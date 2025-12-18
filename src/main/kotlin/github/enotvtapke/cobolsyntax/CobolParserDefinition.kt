@@ -25,7 +25,7 @@ class CobolParserDefinition : ParserDefinition {
     }
 
     override fun getStringLiteralElements(): TokenSet {
-        return TokenSet.EMPTY
+        return CobolTokenSets.STRINGS
     }
 
     override fun createParser(project: Project?): PsiParser {

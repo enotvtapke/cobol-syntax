@@ -2,6 +2,7 @@ plugins {
     id("java")
     id("org.jetbrains.kotlin.jvm") version "2.1.0"
     id("org.jetbrains.intellij.platform") version "2.7.1"
+    id("org.jetbrains.grammarkit") version "2022.3.2.2"
 }
 
 group = "github.enotvtapke"
@@ -57,5 +58,22 @@ sourceSets {
 kotlin {
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+    }
+}
+
+
+tasks {
+    generateLexer {
+        sourceFile.set(file("src/main/kotlin/github/enotvtapke/cobolsyntax/Cobol.flex"))
+        targetOutputDir.set(file("src/main/gen/github/enotvtapke/cobolsyntax"))
+        purgeOldFiles.set(true)
+    }
+
+    generateParser {
+        sourceFile.set(file("src/main/kotlin/github/enotvtapke/cobolsyntax/Cobol.bnf"))
+        targetRootOutputDir.set(file("src/main/gen"))
+        pathToParser.set("github/enotvtapke/cobolsyntax/psi/parser/CobolParser.java")
+        pathToPsiRoot.set("github/enotvtapke/cobolsyntax/psi")
+        purgeOldFiles.set(true)
     }
 }

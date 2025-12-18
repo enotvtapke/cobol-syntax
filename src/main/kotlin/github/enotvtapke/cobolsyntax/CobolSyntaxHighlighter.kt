@@ -8,38 +8,73 @@ import com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributes
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
-import github.enotvtapke.cobolsyntax.psi.CobolTypes
+import github.enotvtapke.cobolsyntax.psi.CobolTokenSets
 
 class CobolSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer = CobolLexerAdapter()
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
-        return when (tokenType) {
-            CobolTypes.SEPARATOR -> SEPARATOR_KEYS
-            CobolTypes.KEY -> KEY_KEYS
-            CobolTypes.VALUE -> VALUE_KEYS
-            CobolTypes.COMMENT -> COMMENT_KEYS
-            TokenType.BAD_CHARACTER -> BAD_CHAR_KEYS
+        return when {
+            CobolTokenSets.KEYWORDS.contains(tokenType) -> KEYWORD_KEYS
+            CobolTokenSets.STRINGS.contains(tokenType) -> STRING_KEYS
+            CobolTokenSets.NUMBERS.contains(tokenType) -> NUMBER_KEYS
+            CobolTokenSets.COMMENTS.contains(tokenType) -> COMMENT_KEYS
+            CobolTokenSets.IDENTIFIERS.contains(tokenType) -> IDENTIFIER_KEYS
+            CobolTokenSets.OPERATORS.contains(tokenType) -> OPERATOR_KEYS
+            CobolTokenSets.PUNCTUATION.contains(tokenType) -> PUNCTUATION_KEYS
+            CobolTokenSets.PICTURE_STRINGS.contains(tokenType) -> PICTURE_STRING_KEYS
+            tokenType == TokenType.BAD_CHARACTER -> BAD_CHAR_KEYS
             else -> EMPTY_KEYS
         }
     }
 
     companion object {
-        val SEPARATOR: TextAttributesKey = createTextAttributesKey(
-            "SIMPLE_SEPARATOR",
+        val KEYWORD: TextAttributesKey = createTextAttributesKey(
+            "COBOL_KEYWORD",
+            DefaultLanguageHighlighterColors.KEYWORD
+        )
+        val STRING: TextAttributesKey = createTextAttributesKey(
+            "COBOL_STRING",
+            DefaultLanguageHighlighterColors.STRING
+        )
+        val NUMBER: TextAttributesKey = createTextAttributesKey(
+            "COBOL_NUMBER",
+            DefaultLanguageHighlighterColors.NUMBER
+        )
+        val COMMENT: TextAttributesKey = createTextAttributesKey(
+            "COBOL_COMMENT",
+            DefaultLanguageHighlighterColors.LINE_COMMENT
+        )
+        val IDENTIFIER: TextAttributesKey = createTextAttributesKey(
+            "COBOL_IDENTIFIER",
+            DefaultLanguageHighlighterColors.IDENTIFIER
+        )
+        val OPERATOR: TextAttributesKey = createTextAttributesKey(
+            "COBOL_OPERATOR",
             DefaultLanguageHighlighterColors.OPERATION_SIGN
         )
-        val KEY = createTextAttributesKey("SIMPLE_KEY", DefaultLanguageHighlighterColors.KEYWORD)
-        val VALUE = createTextAttributesKey("SIMPLE_VALUE", DefaultLanguageHighlighterColors.STRING)
-        val COMMENT = createTextAttributesKey("SIMPLE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
-        val BAD_CHARACTER = createTextAttributesKey("SIMPLE_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
+        val PUNCTUATION: TextAttributesKey = createTextAttributesKey(
+            "COBOL_PUNCTUATION",
+            DefaultLanguageHighlighterColors.DOT
+        )
+        val PICTURE_STRING: TextAttributesKey = createTextAttributesKey(
+            "COBOL_PICTURE_STRING",
+            DefaultLanguageHighlighterColors.METADATA
+        )
+        val BAD_CHARACTER: TextAttributesKey = createTextAttributesKey(
+            "COBOL_BAD_CHARACTER",
+            HighlighterColors.BAD_CHARACTER
+        )
 
-
-        private val BAD_CHAR_KEYS = arrayOf<TextAttributesKey>(BAD_CHARACTER)
-        private val SEPARATOR_KEYS = arrayOf<TextAttributesKey>(SEPARATOR)
-        private val KEY_KEYS = arrayOf<TextAttributesKey>(KEY)
-        private val VALUE_KEYS = arrayOf<TextAttributesKey>(VALUE)
-        private val COMMENT_KEYS = arrayOf<TextAttributesKey>(COMMENT)
-        private val EMPTY_KEYS = arrayOf<TextAttributesKey>()
+        private val KEYWORD_KEYS = arrayOf(KEYWORD)
+        private val STRING_KEYS = arrayOf(STRING)
+        private val NUMBER_KEYS = arrayOf(NUMBER)
+        private val COMMENT_KEYS = arrayOf(COMMENT)
+        private val IDENTIFIER_KEYS = arrayOf(IDENTIFIER)
+        private val OPERATOR_KEYS = arrayOf(OPERATOR)
+        private val PUNCTUATION_KEYS = arrayOf(PUNCTUATION)
+        private val PICTURE_STRING_KEYS = arrayOf(PICTURE_STRING)
+        private val BAD_CHAR_KEYS = arrayOf(BAD_CHARACTER)
+        private val EMPTY_KEYS = emptyArray<TextAttributesKey>()
     }
 }

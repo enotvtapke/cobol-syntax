@@ -11,10 +11,43 @@
   elementTypeHolderClass="github.enotvtapke.cobolsyntax.psi.CobolTypes"
   elementTypeClass="github.enotvtapke.cobolsyntax.psi.CobolElementType"
   tokenTypeClass="github.enotvtapke.cobolsyntax.psi.CobolTokenType"
+
+  tokens = [
+    LPAREN = "("
+    RPAREN = ")"
+    COMMENT = "COMMENT"
+  ]
 }
 
-simpleFile ::= item_*
+cobolFile ::= identificationDivision dataDivision? procedureDivision?
 
-private item_ ::= (property|COMMENT|CRLF)
+identificationDivision ::= IDENTIFICATION DIVISION DOT programIdParagraph
+programIdParagraph ::= PROGRAM_ID DOT IDENTIFIER DOT
 
-property ::= (KEY? SEPARATOR VALUE?) | KEY
+dataDivision ::= DATA DIVISION DOT workingStorageSection?
+workingStorageSection ::= WORKING_STORAGE SECTION DOT dataItemDefinition*
+
+dataItemDefinition ::= levelNumber dataName pictureClause valueClause? DOT
+levelNumber ::= INTEGER
+dataName ::= IDENTIFIER
+pictureClause ::= PIC IS? PICTURE_STRING
+valueClause ::= VALUE literal
+literal ::= INTEGER | STRING | IDENTIFIER
+
+procedureDivision ::= PROCEDURE DIVISION DOT paragraph*
+paragraph ::= paragraphName DOT statement*
+paragraphName ::= IDENTIFIER
+
+statement ::= performStatement | stopStatement | displayStatement
+
+performStatement ::= PERFORM IDENTIFIER varyingClause? DOT?
+varyingClause ::= VARYING IDENTIFIER FROM arithmeticExpression BY arithmeticExpression UNTIL condition
+
+arithmeticExpression ::= INTEGER | IDENTIFIER
+
+condition ::= IDENTIFIER EQ arithmeticExpression
+
+stopStatement ::= STOP RUN DOT
+
+displayStatement ::= DISPLAY displayOperand+ DOT
+displayOperand ::= STRING | IDENTIFIER

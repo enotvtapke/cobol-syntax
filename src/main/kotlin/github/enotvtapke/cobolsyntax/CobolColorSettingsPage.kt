@@ -18,18 +18,20 @@ internal class CobolColorSettingsPage : ColorSettingsPage {
 
     override fun getDemoText(): String {
         return """
-        # You are reading the ".properties" entry.
-        ! The exclamation mark can also mark text as comments.
-        website = https://en.wikipedia.org/
-        language = English
-        # The backslash below tells the application to continue reading
-        # the value onto the next line.
-        message = Welcome to \
-                  Wikipedia!
-        # Add spaces to the key
-        key\ with\ spaces = This is the value that could be looked up with the key "key with spaces".
-        # Unicode
-        tab : \u0009
+IDENTIFICATION DIVISION.
+PROGRAM-ID. HELLO.
+* This is a comment
+DATA DIVISION.
+WORKING-STORAGE SECTION.
+01 WS-A PIC 9(2) VALUE 0.
+01 WS-NAME PIC X(20) VALUE 'TEST'.
+PROCEDURE DIVISION.
+A-PARA.
+    PERFORM B-PARA VARYING WS-A FROM 2 BY 2 UNTIL WS-A=12
+    STOP RUN.
+B-PARA.
+    DISPLAY 'B-PARA ' WS-A.
+    DISPLAY 'B-PARA'.
         """.trimIndent()
     }
 
@@ -52,8 +54,13 @@ internal class CobolColorSettingsPage : ColorSettingsPage {
 }
 
 private val DESCRIPTORS = arrayOf(
-    AttributesDescriptor("Key", CobolSyntaxHighlighter.KEY),
-    AttributesDescriptor("Separator", CobolSyntaxHighlighter.SEPARATOR),
-    AttributesDescriptor("Value", CobolSyntaxHighlighter.VALUE),
-    AttributesDescriptor("Bad value", CobolSyntaxHighlighter.BAD_CHARACTER)
+    AttributesDescriptor("Keyword", CobolSyntaxHighlighter.KEYWORD),
+    AttributesDescriptor("String", CobolSyntaxHighlighter.STRING),
+    AttributesDescriptor("Number", CobolSyntaxHighlighter.NUMBER),
+    AttributesDescriptor("Comment", CobolSyntaxHighlighter.COMMENT),
+    AttributesDescriptor("Identifier", CobolSyntaxHighlighter.IDENTIFIER),
+    AttributesDescriptor("Operator", CobolSyntaxHighlighter.OPERATOR),
+    AttributesDescriptor("Punctuation", CobolSyntaxHighlighter.PUNCTUATION),
+    AttributesDescriptor("Picture string", CobolSyntaxHighlighter.PICTURE_STRING),
+    AttributesDescriptor("Bad character", CobolSyntaxHighlighter.BAD_CHARACTER)
 )
