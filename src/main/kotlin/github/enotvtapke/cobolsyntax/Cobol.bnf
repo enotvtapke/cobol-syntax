@@ -51,8 +51,12 @@ paragraphName ::= IDENTIFIER
 
 statement ::= performStatement | stopStatement | displayStatement | computeStatement | addStatement | subtractStatement | multiplyStatement | divideStatement | moveStatement | acceptStatement | ifStatement
 
-performStatement ::= PERFORM IDENTIFIER varyingClause?
+performStatement ::= performOutOfLine | performInline
+performOutOfLine ::= PERFORM IDENTIFIER thruClause? (varyingClause | untilClause)?
+performInline ::= PERFORM (varyingClause | untilClause)? statement* END_PERFORM
+thruClause ::= THRU IDENTIFIER
 varyingClause ::= VARYING IDENTIFIER FROM (IDENTIFIER | literal) BY (IDENTIFIER | literal) UNTIL condition
+untilClause ::= UNTIL condition
 
 ifStatement ::= IF condition THEN statement* elseClause? END_IF
 elseClause ::= ELSE statement*

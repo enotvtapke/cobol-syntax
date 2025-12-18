@@ -33,6 +33,8 @@ public interface CobolTypes {
   IElementType NOT_CONDITION = new CobolElementType("NOT_CONDITION");
   IElementType PARAGRAPH = new CobolElementType("PARAGRAPH");
   IElementType PARAGRAPH_NAME = new CobolElementType("PARAGRAPH_NAME");
+  IElementType PERFORM_INLINE = new CobolElementType("PERFORM_INLINE");
+  IElementType PERFORM_OUT_OF_LINE = new CobolElementType("PERFORM_OUT_OF_LINE");
   IElementType PERFORM_STATEMENT = new CobolElementType("PERFORM_STATEMENT");
   IElementType PICTURE_CLAUSE = new CobolElementType("PICTURE_CLAUSE");
   IElementType POWER_EXPRESSION = new CobolElementType("POWER_EXPRESSION");
@@ -45,7 +47,9 @@ public interface CobolTypes {
   IElementType STATEMENT = new CobolElementType("STATEMENT");
   IElementType STOP_STATEMENT = new CobolElementType("STOP_STATEMENT");
   IElementType SUBTRACT_STATEMENT = new CobolElementType("SUBTRACT_STATEMENT");
+  IElementType THRU_CLAUSE = new CobolElementType("THRU_CLAUSE");
   IElementType UNARY_EXPRESSION = new CobolElementType("UNARY_EXPRESSION");
+  IElementType UNTIL_CLAUSE = new CobolElementType("UNTIL_CLAUSE");
   IElementType VALUE_CLAUSE = new CobolElementType("VALUE_CLAUSE");
   IElementType VARYING_CLAUSE = new CobolElementType("VARYING_CLAUSE");
   IElementType WORKING_STORAGE_SECTION = new CobolElementType("WORKING_STORAGE_SECTION");
@@ -63,6 +67,7 @@ public interface CobolTypes {
   IElementType DOT = new CobolTokenType("DOT");
   IElementType ELSE = new CobolTokenType("ELSE");
   IElementType END_IF = new CobolTokenType("END_IF");
+  IElementType END_PERFORM = new CobolTokenType("END_PERFORM");
   IElementType EQ = new CobolTokenType("EQ");
   IElementType FROM = new CobolTokenType("FROM");
   IElementType GE = new CobolTokenType(">=");
@@ -98,6 +103,7 @@ public interface CobolTypes {
   IElementType STRING = new CobolTokenType("STRING");
   IElementType SUBTRACT = new CobolTokenType("SUBTRACT");
   IElementType THEN = new CobolTokenType("THEN");
+  IElementType THRU = new CobolTokenType("THRU");
   IElementType TO = new CobolTokenType("TO");
   IElementType UNTIL = new CobolTokenType("UNTIL");
   IElementType VALUE = new CobolTokenType("VALUE");
@@ -182,6 +188,12 @@ public interface CobolTypes {
       else if (type == PARAGRAPH_NAME) {
         return new CobolParagraphNameImpl(node);
       }
+      else if (type == PERFORM_INLINE) {
+        return new CobolPerformInlineImpl(node);
+      }
+      else if (type == PERFORM_OUT_OF_LINE) {
+        return new CobolPerformOutOfLineImpl(node);
+      }
       else if (type == PERFORM_STATEMENT) {
         return new CobolPerformStatementImpl(node);
       }
@@ -218,8 +230,14 @@ public interface CobolTypes {
       else if (type == SUBTRACT_STATEMENT) {
         return new CobolSubtractStatementImpl(node);
       }
+      else if (type == THRU_CLAUSE) {
+        return new CobolThruClauseImpl(node);
+      }
       else if (type == UNARY_EXPRESSION) {
         return new CobolUnaryExpressionImpl(node);
+      }
+      else if (type == UNTIL_CLAUSE) {
+        return new CobolUntilClauseImpl(node);
       }
       else if (type == VALUE_CLAUSE) {
         return new CobolValueClauseImpl(node);

@@ -614,23 +614,95 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // PERFORM IDENTIFIER varyingClause?
+  // PERFORM (varyingClause | untilClause)? statement* END_PERFORM
+  public static boolean performInline(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "performInline")) return false;
+    if (!nextTokenIs(builder_, PERFORM)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, PERFORM);
+    result_ = result_ && performInline_1(builder_, level_ + 1);
+    result_ = result_ && performInline_2(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, END_PERFORM);
+    exit_section_(builder_, marker_, PERFORM_INLINE, result_);
+    return result_;
+  }
+
+  // (varyingClause | untilClause)?
+  private static boolean performInline_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "performInline_1")) return false;
+    performInline_1_0(builder_, level_ + 1);
+    return true;
+  }
+
+  // varyingClause | untilClause
+  private static boolean performInline_1_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "performInline_1_0")) return false;
+    boolean result_;
+    result_ = varyingClause(builder_, level_ + 1);
+    if (!result_) result_ = untilClause(builder_, level_ + 1);
+    return result_;
+  }
+
+  // statement*
+  private static boolean performInline_2(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "performInline_2")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!statement(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "performInline_2", pos_)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
+  // PERFORM IDENTIFIER thruClause? (varyingClause | untilClause)?
+  public static boolean performOutOfLine(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "performOutOfLine")) return false;
+    if (!nextTokenIs(builder_, PERFORM)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeTokens(builder_, 0, PERFORM, IDENTIFIER);
+    result_ = result_ && performOutOfLine_2(builder_, level_ + 1);
+    result_ = result_ && performOutOfLine_3(builder_, level_ + 1);
+    exit_section_(builder_, marker_, PERFORM_OUT_OF_LINE, result_);
+    return result_;
+  }
+
+  // thruClause?
+  private static boolean performOutOfLine_2(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "performOutOfLine_2")) return false;
+    thruClause(builder_, level_ + 1);
+    return true;
+  }
+
+  // (varyingClause | untilClause)?
+  private static boolean performOutOfLine_3(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "performOutOfLine_3")) return false;
+    performOutOfLine_3_0(builder_, level_ + 1);
+    return true;
+  }
+
+  // varyingClause | untilClause
+  private static boolean performOutOfLine_3_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "performOutOfLine_3_0")) return false;
+    boolean result_;
+    result_ = varyingClause(builder_, level_ + 1);
+    if (!result_) result_ = untilClause(builder_, level_ + 1);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // performOutOfLine | performInline
   public static boolean performStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "performStatement")) return false;
     if (!nextTokenIs(builder_, PERFORM)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = consumeTokens(builder_, 0, PERFORM, IDENTIFIER);
-    result_ = result_ && performStatement_2(builder_, level_ + 1);
+    result_ = performOutOfLine(builder_, level_ + 1);
+    if (!result_) result_ = performInline(builder_, level_ + 1);
     exit_section_(builder_, marker_, PERFORM_STATEMENT, result_);
     return result_;
-  }
-
-  // varyingClause?
-  private static boolean performStatement_2(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "performStatement_2")) return false;
-    varyingClause(builder_, level_ + 1);
-    return true;
   }
 
   /* ********************************************************** */
@@ -869,6 +941,18 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // THRU IDENTIFIER
+  public static boolean thruClause(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "thruClause")) return false;
+    if (!nextTokenIs(builder_, THRU)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeTokens(builder_, 0, THRU, IDENTIFIER);
+    exit_section_(builder_, marker_, THRU_CLAUSE, result_);
+    return result_;
+  }
+
+  /* ********************************************************** */
   // (PLUS | MINUS)? primaryExpression
   public static boolean unaryExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "unaryExpression")) return false;
@@ -893,6 +977,19 @@ public class CobolParser implements PsiParser, LightPsiParser {
     boolean result_;
     result_ = consumeToken(builder_, PLUS);
     if (!result_) result_ = consumeToken(builder_, MINUS);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // UNTIL condition
+  public static boolean untilClause(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "untilClause")) return false;
+    if (!nextTokenIs(builder_, UNTIL)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, UNTIL);
+    result_ = result_ && condition(builder_, level_ + 1);
+    exit_section_(builder_, marker_, UNTIL_CLAUSE, result_);
     return result_;
   }
 

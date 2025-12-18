@@ -107,6 +107,14 @@ public class CobolVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitPerformInline(@NotNull CobolPerformInline o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPerformOutOfLine(@NotNull CobolPerformOutOfLine o) {
+    visitPsiElement(o);
+  }
+
   public void visitPerformStatement(@NotNull CobolPerformStatement o) {
     visitPsiElement(o);
   }
@@ -155,7 +163,15 @@ public class CobolVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitThruClause(@NotNull CobolThruClause o) {
+    visitPsiElement(o);
+  }
+
   public void visitUnaryExpression(@NotNull CobolUnaryExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitUntilClause(@NotNull CobolUntilClause o) {
     visitPsiElement(o);
   }
 

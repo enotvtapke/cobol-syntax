@@ -24,6 +24,7 @@ object CobolTokenSets {
         CobolTypes.BY,
         CobolTypes.TO,
         CobolTypes.UNTIL,
+        CobolTypes.THRU,
         CobolTypes.STOP,
         CobolTypes.RUN,
         CobolTypes.DISPLAY,
@@ -39,6 +40,7 @@ object CobolTokenSets {
         CobolTypes.THEN,
         CobolTypes.ELSE,
         CobolTypes.END_IF,
+        CobolTypes.END_PERFORM,
         CobolTypes.NOT,
         CobolTypes.AND,
         CobolTypes.OR

@@ -54,6 +54,8 @@ PICTURE_STRING=(~[0-9ABCDPRSVXZa-z\*\+\-\/\,\.\;\(\)\=\'\"\ \n])? ({PICCHAR}+ {R
     "BY"                            { return CobolTypes.BY; }
     "TO"                            { return CobolTypes.TO; }
     "UNTIL"                         { return CobolTypes.UNTIL; }
+    "THRU"                          { return CobolTypes.THRU; }
+    "THROUGH"                       { return CobolTypes.THRU; }
     "STOP"                          { return CobolTypes.STOP; }
     "RUN"                           { return CobolTypes.RUN; }
     "DISPLAY"                       { return CobolTypes.DISPLAY; }
@@ -69,6 +71,7 @@ PICTURE_STRING=(~[0-9ABCDPRSVXZa-z\*\+\-\/\,\.\;\(\)\=\'\"\ \n])? ({PICCHAR}+ {R
     "THEN"                          { return CobolTypes.THEN; }
     "ELSE"                          { return CobolTypes.ELSE; }
     "END-IF"                        { return CobolTypes.END_IF; }
+    "END-PERFORM"                   { return CobolTypes.END_PERFORM; }
     "NOT"                           { return CobolTypes.NOT; }
     "AND"                           { return CobolTypes.AND; }
     "OR"                            { return CobolTypes.OR; }
