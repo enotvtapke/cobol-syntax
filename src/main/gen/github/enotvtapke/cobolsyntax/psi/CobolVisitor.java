@@ -7,7 +7,23 @@ import com.intellij.psi.PsiElement;
 
 public class CobolVisitor extends PsiElementVisitor {
 
+  public void visitAddStatement(@NotNull CobolAddStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitAdditiveExpression(@NotNull CobolAdditiveExpression o) {
+    visitPsiElement(o);
+  }
+
   public void visitArithmeticExpression(@NotNull CobolArithmeticExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitArithmeticOperand(@NotNull CobolArithmeticOperand o) {
+    visitPsiElement(o);
+  }
+
+  public void visitComputeStatement(@NotNull CobolComputeStatement o) {
     visitPsiElement(o);
   }
 
@@ -27,11 +43,15 @@ public class CobolVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitDisplayOperand(@NotNull CobolDisplayOperand o) {
+  public void visitDisplayStatement(@NotNull CobolDisplayStatement o) {
     visitPsiElement(o);
   }
 
-  public void visitDisplayStatement(@NotNull CobolDisplayStatement o) {
+  public void visitDivideStatement(@NotNull CobolDivideStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitGivingClause(@NotNull CobolGivingClause o) {
     visitPsiElement(o);
   }
 
@@ -44,6 +64,14 @@ public class CobolVisitor extends PsiElementVisitor {
   }
 
   public void visitLiteral(@NotNull CobolLiteral o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMultiplicativeExpression(@NotNull CobolMultiplicativeExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMultiplyStatement(@NotNull CobolMultiplyStatement o) {
     visitPsiElement(o);
   }
 
@@ -63,6 +91,14 @@ public class CobolVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitPowerExpression(@NotNull CobolPowerExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPrimaryExpression(@NotNull CobolPrimaryExpression o) {
+    visitPsiElement(o);
+  }
+
   public void visitProcedureDivision(@NotNull CobolProcedureDivision o) {
     visitPsiElement(o);
   }
@@ -76,6 +112,14 @@ public class CobolVisitor extends PsiElementVisitor {
   }
 
   public void visitStopStatement(@NotNull CobolStopStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitSubtractStatement(@NotNull CobolSubtractStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitUnaryExpression(@NotNull CobolUnaryExpression o) {
     visitPsiElement(o);
   }
 

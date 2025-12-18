@@ -36,12 +36,89 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // INTEGER | IDENTIFIER
+  // ADD arithmeticOperand TO IDENTIFIER givingClause? DOT
+  public static boolean addStatement(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "addStatement")) return false;
+    if (!nextTokenIs(builder_, ADD)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, ADD);
+    result_ = result_ && arithmeticOperand(builder_, level_ + 1);
+    result_ = result_ && consumeTokens(builder_, 0, TO, IDENTIFIER);
+    result_ = result_ && addStatement_4(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, DOT);
+    exit_section_(builder_, marker_, ADD_STATEMENT, result_);
+    return result_;
+  }
+
+  // givingClause?
+  private static boolean addStatement_4(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "addStatement_4")) return false;
+    givingClause(builder_, level_ + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // multiplicativeExpression ((PLUS | MINUS) multiplicativeExpression)*
+  public static boolean additiveExpression(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "additiveExpression")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, ADDITIVE_EXPRESSION, "<additive expression>");
+    result_ = multiplicativeExpression(builder_, level_ + 1);
+    result_ = result_ && additiveExpression_1(builder_, level_ + 1);
+    exit_section_(builder_, level_, marker_, result_, false, null);
+    return result_;
+  }
+
+  // ((PLUS | MINUS) multiplicativeExpression)*
+  private static boolean additiveExpression_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "additiveExpression_1")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!additiveExpression_1_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "additiveExpression_1", pos_)) break;
+    }
+    return true;
+  }
+
+  // (PLUS | MINUS) multiplicativeExpression
+  private static boolean additiveExpression_1_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "additiveExpression_1_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = additiveExpression_1_0_0(builder_, level_ + 1);
+    result_ = result_ && multiplicativeExpression(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // PLUS | MINUS
+  private static boolean additiveExpression_1_0_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "additiveExpression_1_0_0")) return false;
+    boolean result_;
+    result_ = consumeToken(builder_, PLUS);
+    if (!result_) result_ = consumeToken(builder_, MINUS);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // additiveExpression
   public static boolean arithmeticExpression(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "arithmeticExpression")) return false;
-    if (!nextTokenIs(builder_, "<arithmetic expression>", IDENTIFIER, INTEGER)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, ARITHMETIC_EXPRESSION, "<arithmetic expression>");
+    result_ = additiveExpression(builder_, level_ + 1);
+    exit_section_(builder_, level_, marker_, result_, false, null);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // INTEGER | IDENTIFIER
+  public static boolean arithmeticOperand(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "arithmeticOperand")) return false;
+    if (!nextTokenIs(builder_, "<arithmetic operand>", IDENTIFIER, INTEGER)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, ARITHMETIC_OPERAND, "<arithmetic operand>");
     result_ = consumeToken(builder_, INTEGER);
     if (!result_) result_ = consumeToken(builder_, IDENTIFIER);
     exit_section_(builder_, level_, marker_, result_, false, null);
@@ -77,15 +154,29 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER EQ arithmeticExpression
-  public static boolean condition(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "condition")) return false;
-    if (!nextTokenIs(builder_, IDENTIFIER)) return false;
+  // COMPUTE IDENTIFIER EQ arithmeticExpression DOT
+  public static boolean computeStatement(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "computeStatement")) return false;
+    if (!nextTokenIs(builder_, COMPUTE)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = consumeTokens(builder_, 0, IDENTIFIER, EQ);
+    result_ = consumeTokens(builder_, 0, COMPUTE, IDENTIFIER, EQ);
     result_ = result_ && arithmeticExpression(builder_, level_ + 1);
-    exit_section_(builder_, marker_, CONDITION, result_);
+    result_ = result_ && consumeToken(builder_, DOT);
+    exit_section_(builder_, marker_, COMPUTE_STATEMENT, result_);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // arithmeticExpression EQ arithmeticExpression
+  public static boolean condition(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "condition")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, CONDITION, "<condition>");
+    result_ = arithmeticExpression(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, EQ);
+    result_ = result_ && arithmeticExpression(builder_, level_ + 1);
+    exit_section_(builder_, level_, marker_, result_, false, null);
     return result_;
   }
 
@@ -145,20 +236,7 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // STRING | IDENTIFIER
-  public static boolean displayOperand(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "displayOperand")) return false;
-    if (!nextTokenIs(builder_, "<display operand>", IDENTIFIER, STRING)) return false;
-    boolean result_;
-    Marker marker_ = enter_section_(builder_, level_, _NONE_, DISPLAY_OPERAND, "<display operand>");
-    result_ = consumeToken(builder_, STRING);
-    if (!result_) result_ = consumeToken(builder_, IDENTIFIER);
-    exit_section_(builder_, level_, marker_, result_, false, null);
-    return result_;
-  }
-
-  /* ********************************************************** */
-  // DISPLAY displayOperand+ DOT
+  // DISPLAY (IDENTIFIER | literal)+ DOT
   public static boolean displayStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "displayStatement")) return false;
     if (!nextTokenIs(builder_, DISPLAY)) return false;
@@ -171,18 +249,63 @@ public class CobolParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // displayOperand+
+  // (IDENTIFIER | literal)+
   private static boolean displayStatement_1(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "displayStatement_1")) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = displayOperand(builder_, level_ + 1);
+    result_ = displayStatement_1_0(builder_, level_ + 1);
     while (result_) {
       int pos_ = current_position_(builder_);
-      if (!displayOperand(builder_, level_ + 1)) break;
+      if (!displayStatement_1_0(builder_, level_ + 1)) break;
       if (!empty_element_parsed_guard_(builder_, "displayStatement_1", pos_)) break;
     }
     exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // IDENTIFIER | literal
+  private static boolean displayStatement_1_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "displayStatement_1_0")) return false;
+    boolean result_;
+    result_ = consumeToken(builder_, IDENTIFIER);
+    if (!result_) result_ = literal(builder_, level_ + 1);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // DIVIDE arithmeticOperand BY arithmeticOperand givingClause? DOT
+  public static boolean divideStatement(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "divideStatement")) return false;
+    if (!nextTokenIs(builder_, DIVIDE)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, DIVIDE);
+    result_ = result_ && arithmeticOperand(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, BY);
+    result_ = result_ && arithmeticOperand(builder_, level_ + 1);
+    result_ = result_ && divideStatement_4(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, DOT);
+    exit_section_(builder_, marker_, DIVIDE_STATEMENT, result_);
+    return result_;
+  }
+
+  // givingClause?
+  private static boolean divideStatement_4(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "divideStatement_4")) return false;
+    givingClause(builder_, level_ + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // GIVING IDENTIFIER
+  public static boolean givingClause(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "givingClause")) return false;
+    if (!nextTokenIs(builder_, GIVING)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeTokens(builder_, 0, GIVING, IDENTIFIER);
+    exit_section_(builder_, marker_, GIVING_CLAUSE, result_);
     return result_;
   }
 
@@ -212,16 +335,82 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // INTEGER | STRING | IDENTIFIER
+  // INTEGER | STRING
   public static boolean literal(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "literal")) return false;
+    if (!nextTokenIs(builder_, "<literal>", INTEGER, STRING)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_, level_, _NONE_, LITERAL, "<literal>");
     result_ = consumeToken(builder_, INTEGER);
     if (!result_) result_ = consumeToken(builder_, STRING);
-    if (!result_) result_ = consumeToken(builder_, IDENTIFIER);
     exit_section_(builder_, level_, marker_, result_, false, null);
     return result_;
+  }
+
+  /* ********************************************************** */
+  // powerExpression ((STAR | SLASH) powerExpression)*
+  public static boolean multiplicativeExpression(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "multiplicativeExpression")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, MULTIPLICATIVE_EXPRESSION, "<multiplicative expression>");
+    result_ = powerExpression(builder_, level_ + 1);
+    result_ = result_ && multiplicativeExpression_1(builder_, level_ + 1);
+    exit_section_(builder_, level_, marker_, result_, false, null);
+    return result_;
+  }
+
+  // ((STAR | SLASH) powerExpression)*
+  private static boolean multiplicativeExpression_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "multiplicativeExpression_1")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!multiplicativeExpression_1_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "multiplicativeExpression_1", pos_)) break;
+    }
+    return true;
+  }
+
+  // (STAR | SLASH) powerExpression
+  private static boolean multiplicativeExpression_1_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "multiplicativeExpression_1_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = multiplicativeExpression_1_0_0(builder_, level_ + 1);
+    result_ = result_ && powerExpression(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  // STAR | SLASH
+  private static boolean multiplicativeExpression_1_0_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "multiplicativeExpression_1_0_0")) return false;
+    boolean result_;
+    result_ = consumeToken(builder_, STAR);
+    if (!result_) result_ = consumeToken(builder_, SLASH);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // MULTIPLY arithmeticOperand BY IDENTIFIER givingClause? DOT
+  public static boolean multiplyStatement(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "multiplyStatement")) return false;
+    if (!nextTokenIs(builder_, MULTIPLY)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, MULTIPLY);
+    result_ = result_ && arithmeticOperand(builder_, level_ + 1);
+    result_ = result_ && consumeTokens(builder_, 0, BY, IDENTIFIER);
+    result_ = result_ && multiplyStatement_4(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, DOT);
+    exit_section_(builder_, marker_, MULTIPLY_STATEMENT, result_);
+    return result_;
+  }
+
+  // givingClause?
+  private static boolean multiplyStatement_4(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "multiplyStatement_4")) return false;
+    givingClause(builder_, level_ + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -311,6 +500,65 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // unaryExpression (POWER unaryExpression)*
+  public static boolean powerExpression(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "powerExpression")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, POWER_EXPRESSION, "<power expression>");
+    result_ = unaryExpression(builder_, level_ + 1);
+    result_ = result_ && powerExpression_1(builder_, level_ + 1);
+    exit_section_(builder_, level_, marker_, result_, false, null);
+    return result_;
+  }
+
+  // (POWER unaryExpression)*
+  private static boolean powerExpression_1(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "powerExpression_1")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!powerExpression_1_0(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "powerExpression_1", pos_)) break;
+    }
+    return true;
+  }
+
+  // POWER unaryExpression
+  private static boolean powerExpression_1_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "powerExpression_1_0")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, POWER);
+    result_ = result_ && unaryExpression(builder_, level_ + 1);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  /* ********************************************************** */
+  // INTEGER | IDENTIFIER | LPAREN arithmeticExpression RPAREN
+  public static boolean primaryExpression(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "primaryExpression")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, PRIMARY_EXPRESSION, "<primary expression>");
+    result_ = consumeToken(builder_, INTEGER);
+    if (!result_) result_ = consumeToken(builder_, IDENTIFIER);
+    if (!result_) result_ = primaryExpression_2(builder_, level_ + 1);
+    exit_section_(builder_, level_, marker_, result_, false, null);
+    return result_;
+  }
+
+  // LPAREN arithmeticExpression RPAREN
+  private static boolean primaryExpression_2(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "primaryExpression_2")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, LPAREN);
+    result_ = result_ && arithmeticExpression(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, RPAREN);
+    exit_section_(builder_, marker_, null, result_);
+    return result_;
+  }
+
+  /* ********************************************************** */
   // PROCEDURE DIVISION DOT paragraph*
   public static boolean procedureDivision(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "procedureDivision")) return false;
@@ -347,7 +595,7 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // performStatement | stopStatement | displayStatement
+  // performStatement | stopStatement | displayStatement | computeStatement | addStatement | subtractStatement | multiplyStatement | divideStatement
   public static boolean statement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "statement")) return false;
     boolean result_;
@@ -355,6 +603,11 @@ public class CobolParser implements PsiParser, LightPsiParser {
     result_ = performStatement(builder_, level_ + 1);
     if (!result_) result_ = stopStatement(builder_, level_ + 1);
     if (!result_) result_ = displayStatement(builder_, level_ + 1);
+    if (!result_) result_ = computeStatement(builder_, level_ + 1);
+    if (!result_) result_ = addStatement(builder_, level_ + 1);
+    if (!result_) result_ = subtractStatement(builder_, level_ + 1);
+    if (!result_) result_ = multiplyStatement(builder_, level_ + 1);
+    if (!result_) result_ = divideStatement(builder_, level_ + 1);
     exit_section_(builder_, level_, marker_, result_, false, null);
     return result_;
   }
@@ -372,6 +625,57 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // SUBTRACT arithmeticOperand FROM IDENTIFIER givingClause? DOT
+  public static boolean subtractStatement(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "subtractStatement")) return false;
+    if (!nextTokenIs(builder_, SUBTRACT)) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_);
+    result_ = consumeToken(builder_, SUBTRACT);
+    result_ = result_ && arithmeticOperand(builder_, level_ + 1);
+    result_ = result_ && consumeTokens(builder_, 0, FROM, IDENTIFIER);
+    result_ = result_ && subtractStatement_4(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, DOT);
+    exit_section_(builder_, marker_, SUBTRACT_STATEMENT, result_);
+    return result_;
+  }
+
+  // givingClause?
+  private static boolean subtractStatement_4(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "subtractStatement_4")) return false;
+    givingClause(builder_, level_ + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // (PLUS | MINUS)? primaryExpression
+  public static boolean unaryExpression(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "unaryExpression")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, UNARY_EXPRESSION, "<unary expression>");
+    result_ = unaryExpression_0(builder_, level_ + 1);
+    result_ = result_ && primaryExpression(builder_, level_ + 1);
+    exit_section_(builder_, level_, marker_, result_, false, null);
+    return result_;
+  }
+
+  // (PLUS | MINUS)?
+  private static boolean unaryExpression_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "unaryExpression_0")) return false;
+    unaryExpression_0_0(builder_, level_ + 1);
+    return true;
+  }
+
+  // PLUS | MINUS
+  private static boolean unaryExpression_0_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "unaryExpression_0_0")) return false;
+    boolean result_;
+    result_ = consumeToken(builder_, PLUS);
+    if (!result_) result_ = consumeToken(builder_, MINUS);
+    return result_;
+  }
+
+  /* ********************************************************** */
   // VALUE literal
   public static boolean valueClause(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "valueClause")) return false;
@@ -385,19 +689,37 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // VARYING IDENTIFIER FROM arithmeticExpression BY arithmeticExpression UNTIL condition
+  // VARYING IDENTIFIER FROM (IDENTIFIER | literal) BY (IDENTIFIER | literal) UNTIL condition
   public static boolean varyingClause(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "varyingClause")) return false;
     if (!nextTokenIs(builder_, VARYING)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
     result_ = consumeTokens(builder_, 0, VARYING, IDENTIFIER, FROM);
-    result_ = result_ && arithmeticExpression(builder_, level_ + 1);
+    result_ = result_ && varyingClause_3(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, BY);
-    result_ = result_ && arithmeticExpression(builder_, level_ + 1);
+    result_ = result_ && varyingClause_5(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, UNTIL);
     result_ = result_ && condition(builder_, level_ + 1);
     exit_section_(builder_, marker_, VARYING_CLAUSE, result_);
+    return result_;
+  }
+
+  // IDENTIFIER | literal
+  private static boolean varyingClause_3(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "varyingClause_3")) return false;
+    boolean result_;
+    result_ = consumeToken(builder_, IDENTIFIER);
+    if (!result_) result_ = literal(builder_, level_ + 1);
+    return result_;
+  }
+
+  // IDENTIFIER | literal
+  private static boolean varyingClause_5(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "varyingClause_5")) return false;
+    boolean result_;
+    result_ = consumeToken(builder_, IDENTIFIER);
+    if (!result_) result_ = literal(builder_, level_ + 1);
     return result_;
   }
 

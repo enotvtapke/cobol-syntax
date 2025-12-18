@@ -22,10 +22,17 @@ object CobolTokenSets {
         CobolTypes.VARYING,
         CobolTypes.FROM,
         CobolTypes.BY,
+        CobolTypes.TO,
         CobolTypes.UNTIL,
         CobolTypes.STOP,
         CobolTypes.RUN,
-        CobolTypes.DISPLAY
+        CobolTypes.DISPLAY,
+        CobolTypes.COMPUTE,
+        CobolTypes.ADD,
+        CobolTypes.SUBTRACT,
+        CobolTypes.MULTIPLY,
+        CobolTypes.DIVIDE,
+        CobolTypes.GIVING
     )
 
     val STRINGS: TokenSet = TokenSet.create(CobolTypes.STRING)
@@ -35,7 +42,12 @@ object CobolTokenSets {
     val PICTURE_STRINGS: TokenSet = TokenSet.create(CobolTypes.PICTURE_STRING)
 
     val OPERATORS: TokenSet = TokenSet.create(
-        CobolTypes.EQ
+        CobolTypes.EQ,
+        CobolTypes.PLUS,
+        CobolTypes.MINUS,
+        CobolTypes.STAR,
+        CobolTypes.SLASH,
+        CobolTypes.POWER
     )
 
     val PUNCTUATION: TokenSet = TokenSet.create(

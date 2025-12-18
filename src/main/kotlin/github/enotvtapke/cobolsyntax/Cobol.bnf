@@ -16,6 +16,11 @@
     LPAREN = "("
     RPAREN = ")"
     COMMENT = "COMMENT"
+    POWER = "**"
+    PLUS = "+"
+    MINUS = "-"
+    STAR = "*"
+    SLASH = "/"
   ]
 }
 
@@ -32,22 +37,41 @@ levelNumber ::= INTEGER
 dataName ::= IDENTIFIER
 pictureClause ::= PIC IS? PICTURE_STRING
 valueClause ::= VALUE literal
-literal ::= INTEGER | STRING | IDENTIFIER
+literal ::= INTEGER | STRING
 
 procedureDivision ::= PROCEDURE DIVISION DOT paragraph*
 paragraph ::= paragraphName DOT statement*
 paragraphName ::= IDENTIFIER
 
-statement ::= performStatement | stopStatement | displayStatement
+statement ::= performStatement | stopStatement | displayStatement | computeStatement | addStatement | subtractStatement | multiplyStatement | divideStatement
 
 performStatement ::= PERFORM IDENTIFIER varyingClause? DOT?
-varyingClause ::= VARYING IDENTIFIER FROM arithmeticExpression BY arithmeticExpression UNTIL condition
+varyingClause ::= VARYING IDENTIFIER FROM (IDENTIFIER | literal) BY (IDENTIFIER | literal) UNTIL condition
 
-arithmeticExpression ::= INTEGER | IDENTIFIER
-
-condition ::= IDENTIFIER EQ arithmeticExpression
+condition ::= arithmeticExpression EQ arithmeticExpression
 
 stopStatement ::= STOP RUN DOT
 
-displayStatement ::= DISPLAY displayOperand+ DOT
-displayOperand ::= STRING | IDENTIFIER
+displayStatement ::= DISPLAY (IDENTIFIER | literal)+ DOT
+
+computeStatement ::= COMPUTE IDENTIFIER EQ arithmeticExpression DOT
+
+addStatement ::= ADD arithmeticOperand TO IDENTIFIER givingClause? DOT
+subtractStatement ::= SUBTRACT arithmeticOperand FROM IDENTIFIER givingClause? DOT
+multiplyStatement ::= MULTIPLY arithmeticOperand BY IDENTIFIER givingClause? DOT
+divideStatement ::= DIVIDE arithmeticOperand BY arithmeticOperand givingClause? DOT
+
+arithmeticOperand ::= INTEGER | IDENTIFIER
+givingClause ::= GIVING IDENTIFIER
+
+arithmeticExpression ::= additiveExpression
+
+additiveExpression ::= multiplicativeExpression ((PLUS | MINUS) multiplicativeExpression)*
+
+multiplicativeExpression ::= powerExpression ((STAR | SLASH) powerExpression)*
+
+powerExpression ::= unaryExpression (POWER unaryExpression)*
+
+unaryExpression ::= (PLUS | MINUS)? primaryExpression
+
+primaryExpression ::= INTEGER | IDENTIFIER | LPAREN arithmeticExpression RPAREN

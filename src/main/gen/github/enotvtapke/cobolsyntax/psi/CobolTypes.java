@@ -8,51 +8,74 @@ import github.enotvtapke.cobolsyntax.psi.impl.*;
 
 public interface CobolTypes {
 
+  IElementType ADDITIVE_EXPRESSION = new CobolElementType("ADDITIVE_EXPRESSION");
+  IElementType ADD_STATEMENT = new CobolElementType("ADD_STATEMENT");
   IElementType ARITHMETIC_EXPRESSION = new CobolElementType("ARITHMETIC_EXPRESSION");
+  IElementType ARITHMETIC_OPERAND = new CobolElementType("ARITHMETIC_OPERAND");
+  IElementType COMPUTE_STATEMENT = new CobolElementType("COMPUTE_STATEMENT");
   IElementType CONDITION = new CobolElementType("CONDITION");
   IElementType DATA_DIVISION = new CobolElementType("DATA_DIVISION");
   IElementType DATA_ITEM_DEFINITION = new CobolElementType("DATA_ITEM_DEFINITION");
   IElementType DATA_NAME = new CobolElementType("DATA_NAME");
-  IElementType DISPLAY_OPERAND = new CobolElementType("DISPLAY_OPERAND");
   IElementType DISPLAY_STATEMENT = new CobolElementType("DISPLAY_STATEMENT");
+  IElementType DIVIDE_STATEMENT = new CobolElementType("DIVIDE_STATEMENT");
+  IElementType GIVING_CLAUSE = new CobolElementType("GIVING_CLAUSE");
   IElementType IDENTIFICATION_DIVISION = new CobolElementType("IDENTIFICATION_DIVISION");
   IElementType LEVEL_NUMBER = new CobolElementType("LEVEL_NUMBER");
   IElementType LITERAL = new CobolElementType("LITERAL");
+  IElementType MULTIPLICATIVE_EXPRESSION = new CobolElementType("MULTIPLICATIVE_EXPRESSION");
+  IElementType MULTIPLY_STATEMENT = new CobolElementType("MULTIPLY_STATEMENT");
   IElementType PARAGRAPH = new CobolElementType("PARAGRAPH");
   IElementType PARAGRAPH_NAME = new CobolElementType("PARAGRAPH_NAME");
   IElementType PERFORM_STATEMENT = new CobolElementType("PERFORM_STATEMENT");
   IElementType PICTURE_CLAUSE = new CobolElementType("PICTURE_CLAUSE");
+  IElementType POWER_EXPRESSION = new CobolElementType("POWER_EXPRESSION");
+  IElementType PRIMARY_EXPRESSION = new CobolElementType("PRIMARY_EXPRESSION");
   IElementType PROCEDURE_DIVISION = new CobolElementType("PROCEDURE_DIVISION");
   IElementType PROGRAM_ID_PARAGRAPH = new CobolElementType("PROGRAM_ID_PARAGRAPH");
   IElementType STATEMENT = new CobolElementType("STATEMENT");
   IElementType STOP_STATEMENT = new CobolElementType("STOP_STATEMENT");
+  IElementType SUBTRACT_STATEMENT = new CobolElementType("SUBTRACT_STATEMENT");
+  IElementType UNARY_EXPRESSION = new CobolElementType("UNARY_EXPRESSION");
   IElementType VALUE_CLAUSE = new CobolElementType("VALUE_CLAUSE");
   IElementType VARYING_CLAUSE = new CobolElementType("VARYING_CLAUSE");
   IElementType WORKING_STORAGE_SECTION = new CobolElementType("WORKING_STORAGE_SECTION");
 
+  IElementType ADD = new CobolTokenType("ADD");
   IElementType BY = new CobolTokenType("BY");
   IElementType COMMENT = new CobolTokenType("COMMENT");
+  IElementType COMPUTE = new CobolTokenType("COMPUTE");
   IElementType DATA = new CobolTokenType("DATA");
   IElementType DISPLAY = new CobolTokenType("DISPLAY");
+  IElementType DIVIDE = new CobolTokenType("DIVIDE");
   IElementType DIVISION = new CobolTokenType("DIVISION");
   IElementType DOT = new CobolTokenType("DOT");
   IElementType EQ = new CobolTokenType("EQ");
   IElementType FROM = new CobolTokenType("FROM");
+  IElementType GIVING = new CobolTokenType("GIVING");
   IElementType IDENTIFICATION = new CobolTokenType("IDENTIFICATION");
   IElementType IDENTIFIER = new CobolTokenType("IDENTIFIER");
   IElementType INTEGER = new CobolTokenType("INTEGER");
   IElementType IS = new CobolTokenType("IS");
   IElementType LPAREN = new CobolTokenType("(");
+  IElementType MINUS = new CobolTokenType("-");
+  IElementType MULTIPLY = new CobolTokenType("MULTIPLY");
   IElementType PERFORM = new CobolTokenType("PERFORM");
   IElementType PIC = new CobolTokenType("PIC");
   IElementType PICTURE_STRING = new CobolTokenType("PICTURE_STRING");
+  IElementType PLUS = new CobolTokenType("+");
+  IElementType POWER = new CobolTokenType("**");
   IElementType PROCEDURE = new CobolTokenType("PROCEDURE");
   IElementType PROGRAM_ID = new CobolTokenType("PROGRAM_ID");
   IElementType RPAREN = new CobolTokenType(")");
   IElementType RUN = new CobolTokenType("RUN");
   IElementType SECTION = new CobolTokenType("SECTION");
+  IElementType SLASH = new CobolTokenType("/");
+  IElementType STAR = new CobolTokenType("*");
   IElementType STOP = new CobolTokenType("STOP");
   IElementType STRING = new CobolTokenType("STRING");
+  IElementType SUBTRACT = new CobolTokenType("SUBTRACT");
+  IElementType TO = new CobolTokenType("TO");
   IElementType UNTIL = new CobolTokenType("UNTIL");
   IElementType VALUE = new CobolTokenType("VALUE");
   IElementType VARYING = new CobolTokenType("VARYING");
@@ -61,8 +84,20 @@ public interface CobolTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == ARITHMETIC_EXPRESSION) {
+      if (type == ADDITIVE_EXPRESSION) {
+        return new CobolAdditiveExpressionImpl(node);
+      }
+      else if (type == ADD_STATEMENT) {
+        return new CobolAddStatementImpl(node);
+      }
+      else if (type == ARITHMETIC_EXPRESSION) {
         return new CobolArithmeticExpressionImpl(node);
+      }
+      else if (type == ARITHMETIC_OPERAND) {
+        return new CobolArithmeticOperandImpl(node);
+      }
+      else if (type == COMPUTE_STATEMENT) {
+        return new CobolComputeStatementImpl(node);
       }
       else if (type == CONDITION) {
         return new CobolConditionImpl(node);
@@ -76,11 +111,14 @@ public interface CobolTypes {
       else if (type == DATA_NAME) {
         return new CobolDataNameImpl(node);
       }
-      else if (type == DISPLAY_OPERAND) {
-        return new CobolDisplayOperandImpl(node);
-      }
       else if (type == DISPLAY_STATEMENT) {
         return new CobolDisplayStatementImpl(node);
+      }
+      else if (type == DIVIDE_STATEMENT) {
+        return new CobolDivideStatementImpl(node);
+      }
+      else if (type == GIVING_CLAUSE) {
+        return new CobolGivingClauseImpl(node);
       }
       else if (type == IDENTIFICATION_DIVISION) {
         return new CobolIdentificationDivisionImpl(node);
@@ -90,6 +128,12 @@ public interface CobolTypes {
       }
       else if (type == LITERAL) {
         return new CobolLiteralImpl(node);
+      }
+      else if (type == MULTIPLICATIVE_EXPRESSION) {
+        return new CobolMultiplicativeExpressionImpl(node);
+      }
+      else if (type == MULTIPLY_STATEMENT) {
+        return new CobolMultiplyStatementImpl(node);
       }
       else if (type == PARAGRAPH) {
         return new CobolParagraphImpl(node);
@@ -103,6 +147,12 @@ public interface CobolTypes {
       else if (type == PICTURE_CLAUSE) {
         return new CobolPictureClauseImpl(node);
       }
+      else if (type == POWER_EXPRESSION) {
+        return new CobolPowerExpressionImpl(node);
+      }
+      else if (type == PRIMARY_EXPRESSION) {
+        return new CobolPrimaryExpressionImpl(node);
+      }
       else if (type == PROCEDURE_DIVISION) {
         return new CobolProcedureDivisionImpl(node);
       }
@@ -114,6 +164,12 @@ public interface CobolTypes {
       }
       else if (type == STOP_STATEMENT) {
         return new CobolStopStatementImpl(node);
+      }
+      else if (type == SUBTRACT_STATEMENT) {
+        return new CobolSubtractStatementImpl(node);
+      }
+      else if (type == UNARY_EXPRESSION) {
+        return new CobolUnaryExpressionImpl(node);
       }
       else if (type == VALUE_CLAUSE) {
         return new CobolValueClauseImpl(node);
