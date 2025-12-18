@@ -19,6 +19,10 @@ public class CobolVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitAndCondition(@NotNull CobolAndCondition o) {
+    visitPsiElement(o);
+  }
+
   public void visitArithmeticExpression(@NotNull CobolArithmeticExpression o) {
     visitPsiElement(o);
   }
@@ -55,11 +59,19 @@ public class CobolVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitElseClause(@NotNull CobolElseClause o) {
+    visitPsiElement(o);
+  }
+
   public void visitGivingClause(@NotNull CobolGivingClause o) {
     visitPsiElement(o);
   }
 
   public void visitIdentificationDivision(@NotNull CobolIdentificationDivision o) {
+    visitPsiElement(o);
+  }
+
+  public void visitIfStatement(@NotNull CobolIfStatement o) {
     visitPsiElement(o);
   }
 
@@ -80,6 +92,10 @@ public class CobolVisitor extends PsiElementVisitor {
   }
 
   public void visitMultiplyStatement(@NotNull CobolMultiplyStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNotCondition(@NotNull CobolNotCondition o) {
     visitPsiElement(o);
   }
 
@@ -112,6 +128,14 @@ public class CobolVisitor extends PsiElementVisitor {
   }
 
   public void visitProgramIdParagraph(@NotNull CobolProgramIdParagraph o) {
+    visitPsiElement(o);
+  }
+
+  public void visitRelationCondition(@NotNull CobolRelationCondition o) {
+    visitPsiElement(o);
+  }
+
+  public void visitRelationalOperator(@NotNull CobolRelationalOperator o) {
     visitPsiElement(o);
   }
 

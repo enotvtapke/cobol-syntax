@@ -11,6 +11,7 @@ public interface CobolTypes {
   IElementType ACCEPT_STATEMENT = new CobolElementType("ACCEPT_STATEMENT");
   IElementType ADDITIVE_EXPRESSION = new CobolElementType("ADDITIVE_EXPRESSION");
   IElementType ADD_STATEMENT = new CobolElementType("ADD_STATEMENT");
+  IElementType AND_CONDITION = new CobolElementType("AND_CONDITION");
   IElementType ARITHMETIC_EXPRESSION = new CobolElementType("ARITHMETIC_EXPRESSION");
   IElementType ARITHMETIC_OPERAND = new CobolElementType("ARITHMETIC_OPERAND");
   IElementType COMPUTE_STATEMENT = new CobolElementType("COMPUTE_STATEMENT");
@@ -20,13 +21,16 @@ public interface CobolTypes {
   IElementType DATA_NAME = new CobolElementType("DATA_NAME");
   IElementType DISPLAY_STATEMENT = new CobolElementType("DISPLAY_STATEMENT");
   IElementType DIVIDE_STATEMENT = new CobolElementType("DIVIDE_STATEMENT");
+  IElementType ELSE_CLAUSE = new CobolElementType("ELSE_CLAUSE");
   IElementType GIVING_CLAUSE = new CobolElementType("GIVING_CLAUSE");
   IElementType IDENTIFICATION_DIVISION = new CobolElementType("IDENTIFICATION_DIVISION");
+  IElementType IF_STATEMENT = new CobolElementType("IF_STATEMENT");
   IElementType LEVEL_NUMBER = new CobolElementType("LEVEL_NUMBER");
   IElementType LITERAL = new CobolElementType("LITERAL");
   IElementType MOVE_STATEMENT = new CobolElementType("MOVE_STATEMENT");
   IElementType MULTIPLICATIVE_EXPRESSION = new CobolElementType("MULTIPLICATIVE_EXPRESSION");
   IElementType MULTIPLY_STATEMENT = new CobolElementType("MULTIPLY_STATEMENT");
+  IElementType NOT_CONDITION = new CobolElementType("NOT_CONDITION");
   IElementType PARAGRAPH = new CobolElementType("PARAGRAPH");
   IElementType PARAGRAPH_NAME = new CobolElementType("PARAGRAPH_NAME");
   IElementType PERFORM_STATEMENT = new CobolElementType("PERFORM_STATEMENT");
@@ -35,6 +39,8 @@ public interface CobolTypes {
   IElementType PRIMARY_EXPRESSION = new CobolElementType("PRIMARY_EXPRESSION");
   IElementType PROCEDURE_DIVISION = new CobolElementType("PROCEDURE_DIVISION");
   IElementType PROGRAM_ID_PARAGRAPH = new CobolElementType("PROGRAM_ID_PARAGRAPH");
+  IElementType RELATIONAL_OPERATOR = new CobolElementType("RELATIONAL_OPERATOR");
+  IElementType RELATION_CONDITION = new CobolElementType("RELATION_CONDITION");
   IElementType STATEMENT = new CobolElementType("STATEMENT");
   IElementType STOP_STATEMENT = new CobolElementType("STOP_STATEMENT");
   IElementType SUBTRACT_STATEMENT = new CobolElementType("SUBTRACT_STATEMENT");
@@ -45,6 +51,7 @@ public interface CobolTypes {
 
   IElementType ACCEPT = new CobolTokenType("ACCEPT");
   IElementType ADD = new CobolTokenType("ADD");
+  IElementType AND = new CobolTokenType("AND");
   IElementType BY = new CobolTokenType("BY");
   IElementType COMMENT = new CobolTokenType("COMMENT");
   IElementType COMPUTE = new CobolTokenType("COMPUTE");
@@ -53,17 +60,27 @@ public interface CobolTypes {
   IElementType DIVIDE = new CobolTokenType("DIVIDE");
   IElementType DIVISION = new CobolTokenType("DIVISION");
   IElementType DOT = new CobolTokenType("DOT");
+  IElementType ELSE = new CobolTokenType("ELSE");
+  IElementType END_IF = new CobolTokenType("END_IF");
   IElementType EQ = new CobolTokenType("EQ");
   IElementType FROM = new CobolTokenType("FROM");
+  IElementType GE = new CobolTokenType(">=");
   IElementType GIVING = new CobolTokenType("GIVING");
+  IElementType GT = new CobolTokenType(">");
   IElementType IDENTIFICATION = new CobolTokenType("IDENTIFICATION");
   IElementType IDENTIFIER = new CobolTokenType("IDENTIFIER");
+  IElementType IF = new CobolTokenType("IF");
   IElementType INTEGER = new CobolTokenType("INTEGER");
   IElementType IS = new CobolTokenType("IS");
+  IElementType LE = new CobolTokenType("<=");
   IElementType LPAREN = new CobolTokenType("(");
+  IElementType LT = new CobolTokenType("<");
   IElementType MINUS = new CobolTokenType("-");
   IElementType MOVE = new CobolTokenType("MOVE");
   IElementType MULTIPLY = new CobolTokenType("MULTIPLY");
+  IElementType NE = new CobolTokenType("<>");
+  IElementType NOT = new CobolTokenType("NOT");
+  IElementType OR = new CobolTokenType("OR");
   IElementType PERFORM = new CobolTokenType("PERFORM");
   IElementType PIC = new CobolTokenType("PIC");
   IElementType PICTURE_STRING = new CobolTokenType("PICTURE_STRING");
@@ -97,6 +114,9 @@ public interface CobolTypes {
       else if (type == ADD_STATEMENT) {
         return new CobolAddStatementImpl(node);
       }
+      else if (type == AND_CONDITION) {
+        return new CobolAndConditionImpl(node);
+      }
       else if (type == ARITHMETIC_EXPRESSION) {
         return new CobolArithmeticExpressionImpl(node);
       }
@@ -124,11 +144,17 @@ public interface CobolTypes {
       else if (type == DIVIDE_STATEMENT) {
         return new CobolDivideStatementImpl(node);
       }
+      else if (type == ELSE_CLAUSE) {
+        return new CobolElseClauseImpl(node);
+      }
       else if (type == GIVING_CLAUSE) {
         return new CobolGivingClauseImpl(node);
       }
       else if (type == IDENTIFICATION_DIVISION) {
         return new CobolIdentificationDivisionImpl(node);
+      }
+      else if (type == IF_STATEMENT) {
+        return new CobolIfStatementImpl(node);
       }
       else if (type == LEVEL_NUMBER) {
         return new CobolLevelNumberImpl(node);
@@ -144,6 +170,9 @@ public interface CobolTypes {
       }
       else if (type == MULTIPLY_STATEMENT) {
         return new CobolMultiplyStatementImpl(node);
+      }
+      else if (type == NOT_CONDITION) {
+        return new CobolNotConditionImpl(node);
       }
       else if (type == PARAGRAPH) {
         return new CobolParagraphImpl(node);
@@ -168,6 +197,12 @@ public interface CobolTypes {
       }
       else if (type == PROGRAM_ID_PARAGRAPH) {
         return new CobolProgramIdParagraphImpl(node);
+      }
+      else if (type == RELATIONAL_OPERATOR) {
+        return new CobolRelationalOperatorImpl(node);
+      }
+      else if (type == RELATION_CONDITION) {
+        return new CobolRelationConditionImpl(node);
       }
       else if (type == STATEMENT) {
         return new CobolStatementImpl(node);

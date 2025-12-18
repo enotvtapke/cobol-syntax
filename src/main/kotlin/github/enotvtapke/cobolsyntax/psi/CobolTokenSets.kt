@@ -34,7 +34,13 @@ object CobolTokenSets {
         CobolTypes.DIVIDE,
         CobolTypes.GIVING,
         CobolTypes.MOVE,
-        CobolTypes.ACCEPT
+        CobolTypes.ACCEPT,
+        CobolTypes.IF,
+        CobolTypes.ELSE,
+        CobolTypes.END_IF,
+        CobolTypes.NOT,
+        CobolTypes.AND,
+        CobolTypes.OR
     )
 
     val STRINGS: TokenSet = TokenSet.create(CobolTypes.STRING)
@@ -45,6 +51,11 @@ object CobolTokenSets {
 
     val OPERATORS: TokenSet = TokenSet.create(
         CobolTypes.EQ,
+        CobolTypes.GT,
+        CobolTypes.LT,
+        CobolTypes.GE,
+        CobolTypes.LE,
+        CobolTypes.NE,
         CobolTypes.PLUS,
         CobolTypes.MINUS,
         CobolTypes.STAR,

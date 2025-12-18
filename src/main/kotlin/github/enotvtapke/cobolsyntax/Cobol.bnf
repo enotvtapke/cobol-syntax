@@ -21,6 +21,11 @@
     MINUS = "-"
     STAR = "*"
     SLASH = "/"
+    GE = ">="
+    LE = "<="
+    NE = "<>"
+    GT = ">"
+    LT = "<"
   ]
 }
 
@@ -43,12 +48,19 @@ procedureDivision ::= PROCEDURE DIVISION DOT paragraph*
 paragraph ::= paragraphName DOT statement*
 paragraphName ::= IDENTIFIER
 
-statement ::= performStatement | stopStatement | displayStatement | computeStatement | addStatement | subtractStatement | multiplyStatement | divideStatement | moveStatement | acceptStatement
+statement ::= performStatement | stopStatement | displayStatement | computeStatement | addStatement | subtractStatement | multiplyStatement | divideStatement | moveStatement | acceptStatement | ifStatement
 
 performStatement ::= PERFORM IDENTIFIER varyingClause? DOT?
 varyingClause ::= VARYING IDENTIFIER FROM (IDENTIFIER | literal) BY (IDENTIFIER | literal) UNTIL condition
 
-condition ::= arithmeticExpression EQ arithmeticExpression
+ifStatement ::= IF condition statement* elseClause? END_IF DOT?
+elseClause ::= ELSE statement*
+
+condition ::= andCondition (OR andCondition)*
+andCondition ::= notCondition (AND notCondition)*
+notCondition ::= NOT? relationCondition
+relationCondition ::= arithmeticExpression relationalOperator arithmeticExpression
+relationalOperator ::= EQ | GT | LT | GE | LE | NE
 
 stopStatement ::= STOP RUN DOT
 

@@ -65,11 +65,22 @@ PICTURE_STRING=(~[0-9ABCDPRSVXZa-z\*\+\-\/\,\.\;\(\)\=\'\"\ \n])? ({PICCHAR}+ {R
     "GIVING"                        { return CobolTypes.GIVING; }
     "MOVE"                          { return CobolTypes.MOVE; }
     "ACCEPT"                        { return CobolTypes.ACCEPT; }
+    "IF"                            { return CobolTypes.IF; }
+    "ELSE"                          { return CobolTypes.ELSE; }
+    "END-IF"                        { return CobolTypes.END_IF; }
+    "NOT"                           { return CobolTypes.NOT; }
+    "AND"                           { return CobolTypes.AND; }
+    "OR"                            { return CobolTypes.OR; }
 
     "."                             { return CobolTypes.DOT; }
     "("                             { return CobolTypes.LPAREN; }
     ")"                             { return CobolTypes.RPAREN; }
+    ">="                            { return CobolTypes.GE; }
+    "<="                            { return CobolTypes.LE; }
+    "<>"                            { return CobolTypes.NE; }
     "="                             { return CobolTypes.EQ; }
+    ">"                             { return CobolTypes.GT; }
+    "<"                             { return CobolTypes.LT; }
     "**"                            { return CobolTypes.POWER; }
     "+"                             { return CobolTypes.PLUS; }
     "-"                             { return CobolTypes.MINUS; }
