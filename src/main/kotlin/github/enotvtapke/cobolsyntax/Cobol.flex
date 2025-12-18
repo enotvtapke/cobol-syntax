@@ -25,7 +25,7 @@ STRING='[^']*'
 
 PICCHAR=[ABEGPSVXZabegpsvxz90\+\-\*\$]
 REPEAT = \([0-9]+\)
-PICTURE_STRING=(~[0-9ABCDPRSVXZa-z\*\+\-\/\,\.\;\(\)\=\'\"\ \n])? ({PICCHAR}+ {REPEAT}?)+ ([\/\,\.\:] ({PICCHAR}+ {REPEAT}?)+)*
+PICTURE_STRING=(\~[0-9ABCDPRSVXZa-z\*\+\-\/\,\.\;\(\)\=\'\"\ \n])?({PICCHAR}+ {REPEAT}?)+([\/\,\.\:]({PICCHAR}+ {REPEAT}?)+)*
 
 %state WAITING_PICTURE
 
