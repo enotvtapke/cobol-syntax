@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class CobolVisitor extends PsiElementVisitor {
 
+  public void visitAcceptStatement(@NotNull CobolAcceptStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitAddStatement(@NotNull CobolAddStatement o) {
     visitPsiElement(o);
   }
@@ -64,6 +68,10 @@ public class CobolVisitor extends PsiElementVisitor {
   }
 
   public void visitLiteral(@NotNull CobolLiteral o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMoveStatement(@NotNull CobolMoveStatement o) {
     visitPsiElement(o);
   }
 

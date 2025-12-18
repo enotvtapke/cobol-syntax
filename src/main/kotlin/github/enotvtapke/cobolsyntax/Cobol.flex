@@ -16,7 +16,7 @@ import com.intellij.psi.TokenType;
 %eof{  return;
 %eof}
 
-WHITE_SPACE=[ \t\f]+
+WHITE_SPACE=[ \t]+
 CRLF=\R
 LINE_COMMENT=\*>.*
 INTEGER=[0-9]+
@@ -63,6 +63,8 @@ PICTURE_STRING=(~[0-9ABCDPRSVXZa-z\*\+\-\/\,\.\;\(\)\=\'\"\ \n])? ({PICCHAR}+ {R
     "MULTIPLY"                      { return CobolTypes.MULTIPLY; }
     "DIVIDE"                        { return CobolTypes.DIVIDE; }
     "GIVING"                        { return CobolTypes.GIVING; }
+    "MOVE"                          { return CobolTypes.MOVE; }
+    "ACCEPT"                        { return CobolTypes.ACCEPT; }
 
     "."                             { return CobolTypes.DOT; }
     "("                             { return CobolTypes.LPAREN; }

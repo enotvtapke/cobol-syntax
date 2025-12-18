@@ -43,7 +43,7 @@ procedureDivision ::= PROCEDURE DIVISION DOT paragraph*
 paragraph ::= paragraphName DOT statement*
 paragraphName ::= IDENTIFIER
 
-statement ::= performStatement | stopStatement | displayStatement | computeStatement | addStatement | subtractStatement | multiplyStatement | divideStatement
+statement ::= performStatement | stopStatement | displayStatement | computeStatement | addStatement | subtractStatement | multiplyStatement | divideStatement | moveStatement | acceptStatement
 
 performStatement ::= PERFORM IDENTIFIER varyingClause? DOT?
 varyingClause ::= VARYING IDENTIFIER FROM (IDENTIFIER | literal) BY (IDENTIFIER | literal) UNTIL condition
@@ -63,6 +63,9 @@ divideStatement ::= DIVIDE arithmeticOperand BY arithmeticOperand givingClause? 
 
 arithmeticOperand ::= INTEGER | IDENTIFIER
 givingClause ::= GIVING IDENTIFIER
+
+moveStatement ::= MOVE (IDENTIFIER | literal) TO IDENTIFIER DOT
+acceptStatement ::= ACCEPT IDENTIFIER DOT
 
 arithmeticExpression ::= additiveExpression
 

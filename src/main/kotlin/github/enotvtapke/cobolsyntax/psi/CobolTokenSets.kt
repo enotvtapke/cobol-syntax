@@ -32,7 +32,9 @@ object CobolTokenSets {
         CobolTypes.SUBTRACT,
         CobolTypes.MULTIPLY,
         CobolTypes.DIVIDE,
-        CobolTypes.GIVING
+        CobolTypes.GIVING,
+        CobolTypes.MOVE,
+        CobolTypes.ACCEPT
     )
 
     val STRINGS: TokenSet = TokenSet.create(CobolTypes.STRING)

@@ -8,6 +8,7 @@ import github.enotvtapke.cobolsyntax.psi.impl.*;
 
 public interface CobolTypes {
 
+  IElementType ACCEPT_STATEMENT = new CobolElementType("ACCEPT_STATEMENT");
   IElementType ADDITIVE_EXPRESSION = new CobolElementType("ADDITIVE_EXPRESSION");
   IElementType ADD_STATEMENT = new CobolElementType("ADD_STATEMENT");
   IElementType ARITHMETIC_EXPRESSION = new CobolElementType("ARITHMETIC_EXPRESSION");
@@ -23,6 +24,7 @@ public interface CobolTypes {
   IElementType IDENTIFICATION_DIVISION = new CobolElementType("IDENTIFICATION_DIVISION");
   IElementType LEVEL_NUMBER = new CobolElementType("LEVEL_NUMBER");
   IElementType LITERAL = new CobolElementType("LITERAL");
+  IElementType MOVE_STATEMENT = new CobolElementType("MOVE_STATEMENT");
   IElementType MULTIPLICATIVE_EXPRESSION = new CobolElementType("MULTIPLICATIVE_EXPRESSION");
   IElementType MULTIPLY_STATEMENT = new CobolElementType("MULTIPLY_STATEMENT");
   IElementType PARAGRAPH = new CobolElementType("PARAGRAPH");
@@ -41,6 +43,7 @@ public interface CobolTypes {
   IElementType VARYING_CLAUSE = new CobolElementType("VARYING_CLAUSE");
   IElementType WORKING_STORAGE_SECTION = new CobolElementType("WORKING_STORAGE_SECTION");
 
+  IElementType ACCEPT = new CobolTokenType("ACCEPT");
   IElementType ADD = new CobolTokenType("ADD");
   IElementType BY = new CobolTokenType("BY");
   IElementType COMMENT = new CobolTokenType("COMMENT");
@@ -59,6 +62,7 @@ public interface CobolTypes {
   IElementType IS = new CobolTokenType("IS");
   IElementType LPAREN = new CobolTokenType("(");
   IElementType MINUS = new CobolTokenType("-");
+  IElementType MOVE = new CobolTokenType("MOVE");
   IElementType MULTIPLY = new CobolTokenType("MULTIPLY");
   IElementType PERFORM = new CobolTokenType("PERFORM");
   IElementType PIC = new CobolTokenType("PIC");
@@ -84,7 +88,10 @@ public interface CobolTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == ADDITIVE_EXPRESSION) {
+      if (type == ACCEPT_STATEMENT) {
+        return new CobolAcceptStatementImpl(node);
+      }
+      else if (type == ADDITIVE_EXPRESSION) {
         return new CobolAdditiveExpressionImpl(node);
       }
       else if (type == ADD_STATEMENT) {
@@ -128,6 +135,9 @@ public interface CobolTypes {
       }
       else if (type == LITERAL) {
         return new CobolLiteralImpl(node);
+      }
+      else if (type == MOVE_STATEMENT) {
+        return new CobolMoveStatementImpl(node);
       }
       else if (type == MULTIPLICATIVE_EXPRESSION) {
         return new CobolMultiplicativeExpressionImpl(node);
