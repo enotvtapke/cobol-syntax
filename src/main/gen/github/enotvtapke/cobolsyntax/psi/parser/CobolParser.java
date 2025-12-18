@@ -36,19 +36,19 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // ACCEPT IDENTIFIER DOT
+  // ACCEPT IDENTIFIER
   public static boolean acceptStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "acceptStatement")) return false;
     if (!nextTokenIs(builder_, ACCEPT)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = consumeTokens(builder_, 0, ACCEPT, IDENTIFIER, DOT);
+    result_ = consumeTokens(builder_, 0, ACCEPT, IDENTIFIER);
     exit_section_(builder_, marker_, ACCEPT_STATEMENT, result_);
     return result_;
   }
 
   /* ********************************************************** */
-  // ADD arithmeticOperand TO IDENTIFIER givingClause? DOT
+  // ADD arithmeticOperand TO IDENTIFIER givingClause?
   public static boolean addStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "addStatement")) return false;
     if (!nextTokenIs(builder_, ADD)) return false;
@@ -58,7 +58,6 @@ public class CobolParser implements PsiParser, LightPsiParser {
     result_ = result_ && arithmeticOperand(builder_, level_ + 1);
     result_ = result_ && consumeTokens(builder_, 0, TO, IDENTIFIER);
     result_ = result_ && addStatement_4(builder_, level_ + 1);
-    result_ = result_ && consumeToken(builder_, DOT);
     exit_section_(builder_, marker_, ADD_STATEMENT, result_);
     return result_;
   }
@@ -200,7 +199,7 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // COMPUTE IDENTIFIER EQ arithmeticExpression DOT
+  // COMPUTE IDENTIFIER EQ arithmeticExpression
   public static boolean computeStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "computeStatement")) return false;
     if (!nextTokenIs(builder_, COMPUTE)) return false;
@@ -208,7 +207,6 @@ public class CobolParser implements PsiParser, LightPsiParser {
     Marker marker_ = enter_section_(builder_);
     result_ = consumeTokens(builder_, 0, COMPUTE, IDENTIFIER, EQ);
     result_ = result_ && arithmeticExpression(builder_, level_ + 1);
-    result_ = result_ && consumeToken(builder_, DOT);
     exit_section_(builder_, marker_, COMPUTE_STATEMENT, result_);
     return result_;
   }
@@ -303,7 +301,7 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // DISPLAY (IDENTIFIER | literal)+ DOT
+  // DISPLAY (IDENTIFIER | literal)+
   public static boolean displayStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "displayStatement")) return false;
     if (!nextTokenIs(builder_, DISPLAY)) return false;
@@ -311,7 +309,6 @@ public class CobolParser implements PsiParser, LightPsiParser {
     Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, DISPLAY);
     result_ = result_ && displayStatement_1(builder_, level_ + 1);
-    result_ = result_ && consumeToken(builder_, DOT);
     exit_section_(builder_, marker_, DISPLAY_STATEMENT, result_);
     return result_;
   }
@@ -341,7 +338,7 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // DIVIDE arithmeticOperand BY arithmeticOperand givingClause? DOT
+  // DIVIDE arithmeticOperand BY arithmeticOperand givingClause?
   public static boolean divideStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "divideStatement")) return false;
     if (!nextTokenIs(builder_, DIVIDE)) return false;
@@ -352,7 +349,6 @@ public class CobolParser implements PsiParser, LightPsiParser {
     result_ = result_ && consumeToken(builder_, BY);
     result_ = result_ && arithmeticOperand(builder_, level_ + 1);
     result_ = result_ && divideStatement_4(builder_, level_ + 1);
-    result_ = result_ && consumeToken(builder_, DOT);
     exit_section_(builder_, marker_, DIVIDE_STATEMENT, result_);
     return result_;
   }
@@ -414,7 +410,7 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IF condition statement* elseClause? END_IF DOT?
+  // IF condition statement* elseClause? END_IF
   public static boolean ifStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "ifStatement")) return false;
     if (!nextTokenIs(builder_, IF)) return false;
@@ -425,7 +421,6 @@ public class CobolParser implements PsiParser, LightPsiParser {
     result_ = result_ && ifStatement_2(builder_, level_ + 1);
     result_ = result_ && ifStatement_3(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, END_IF);
-    result_ = result_ && ifStatement_5(builder_, level_ + 1);
     exit_section_(builder_, marker_, IF_STATEMENT, result_);
     return result_;
   }
@@ -445,13 +440,6 @@ public class CobolParser implements PsiParser, LightPsiParser {
   private static boolean ifStatement_3(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "ifStatement_3")) return false;
     elseClause(builder_, level_ + 1);
-    return true;
-  }
-
-  // DOT?
-  private static boolean ifStatement_5(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "ifStatement_5")) return false;
-    consumeToken(builder_, DOT);
     return true;
   }
 
@@ -481,7 +469,7 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // MOVE (IDENTIFIER | literal) TO IDENTIFIER DOT
+  // MOVE (IDENTIFIER | literal) TO IDENTIFIER
   public static boolean moveStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "moveStatement")) return false;
     if (!nextTokenIs(builder_, MOVE)) return false;
@@ -489,7 +477,7 @@ public class CobolParser implements PsiParser, LightPsiParser {
     Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, MOVE);
     result_ = result_ && moveStatement_1(builder_, level_ + 1);
-    result_ = result_ && consumeTokens(builder_, 0, TO, IDENTIFIER, DOT);
+    result_ = result_ && consumeTokens(builder_, 0, TO, IDENTIFIER);
     exit_section_(builder_, marker_, MOVE_STATEMENT, result_);
     return result_;
   }
@@ -547,7 +535,7 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // MULTIPLY arithmeticOperand BY IDENTIFIER givingClause? DOT
+  // MULTIPLY arithmeticOperand BY IDENTIFIER givingClause?
   public static boolean multiplyStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "multiplyStatement")) return false;
     if (!nextTokenIs(builder_, MULTIPLY)) return false;
@@ -557,7 +545,6 @@ public class CobolParser implements PsiParser, LightPsiParser {
     result_ = result_ && arithmeticOperand(builder_, level_ + 1);
     result_ = result_ && consumeTokens(builder_, 0, BY, IDENTIFIER);
     result_ = result_ && multiplyStatement_4(builder_, level_ + 1);
-    result_ = result_ && consumeToken(builder_, DOT);
     exit_section_(builder_, marker_, MULTIPLY_STATEMENT, result_);
     return result_;
   }
@@ -589,7 +576,7 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // paragraphName DOT statement*
+  // paragraphName DOT sentence*
   public static boolean paragraph(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "paragraph")) return false;
     if (!nextTokenIs(builder_, IDENTIFIER)) return false;
@@ -602,12 +589,12 @@ public class CobolParser implements PsiParser, LightPsiParser {
     return result_;
   }
 
-  // statement*
+  // sentence*
   private static boolean paragraph_2(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "paragraph_2")) return false;
     while (true) {
       int pos_ = current_position_(builder_);
-      if (!statement(builder_, level_ + 1)) break;
+      if (!sentence(builder_, level_ + 1)) break;
       if (!empty_element_parsed_guard_(builder_, "paragraph_2", pos_)) break;
     }
     return true;
@@ -626,7 +613,7 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // PERFORM IDENTIFIER varyingClause? DOT?
+  // PERFORM IDENTIFIER varyingClause?
   public static boolean performStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "performStatement")) return false;
     if (!nextTokenIs(builder_, PERFORM)) return false;
@@ -634,7 +621,6 @@ public class CobolParser implements PsiParser, LightPsiParser {
     Marker marker_ = enter_section_(builder_);
     result_ = consumeTokens(builder_, 0, PERFORM, IDENTIFIER);
     result_ = result_ && performStatement_2(builder_, level_ + 1);
-    result_ = result_ && performStatement_3(builder_, level_ + 1);
     exit_section_(builder_, marker_, PERFORM_STATEMENT, result_);
     return result_;
   }
@@ -643,13 +629,6 @@ public class CobolParser implements PsiParser, LightPsiParser {
   private static boolean performStatement_2(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "performStatement_2")) return false;
     varyingClause(builder_, level_ + 1);
-    return true;
-  }
-
-  // DOT?
-  private static boolean performStatement_3(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "performStatement_3")) return false;
-    consumeToken(builder_, DOT);
     return true;
   }
 
@@ -734,7 +713,7 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // PROCEDURE DIVISION DOT paragraph*
+  // PROCEDURE DIVISION DOT sentence* paragraph*
   public static boolean procedureDivision(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "procedureDivision")) return false;
     if (!nextTokenIs(builder_, PROCEDURE)) return false;
@@ -742,17 +721,29 @@ public class CobolParser implements PsiParser, LightPsiParser {
     Marker marker_ = enter_section_(builder_);
     result_ = consumeTokens(builder_, 0, PROCEDURE, DIVISION, DOT);
     result_ = result_ && procedureDivision_3(builder_, level_ + 1);
+    result_ = result_ && procedureDivision_4(builder_, level_ + 1);
     exit_section_(builder_, marker_, PROCEDURE_DIVISION, result_);
     return result_;
   }
 
-  // paragraph*
+  // sentence*
   private static boolean procedureDivision_3(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "procedureDivision_3")) return false;
     while (true) {
       int pos_ = current_position_(builder_);
-      if (!paragraph(builder_, level_ + 1)) break;
+      if (!sentence(builder_, level_ + 1)) break;
       if (!empty_element_parsed_guard_(builder_, "procedureDivision_3", pos_)) break;
+    }
+    return true;
+  }
+
+  // paragraph*
+  private static boolean procedureDivision_4(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "procedureDivision_4")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!paragraph(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "procedureDivision_4", pos_)) break;
     }
     return true;
   }
@@ -799,6 +790,29 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // statement* DOT
+  public static boolean sentence(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "sentence")) return false;
+    boolean result_;
+    Marker marker_ = enter_section_(builder_, level_, _NONE_, SENTENCE, "<sentence>");
+    result_ = sentence_0(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, DOT);
+    exit_section_(builder_, level_, marker_, result_, false, null);
+    return result_;
+  }
+
+  // statement*
+  private static boolean sentence_0(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "sentence_0")) return false;
+    while (true) {
+      int pos_ = current_position_(builder_);
+      if (!statement(builder_, level_ + 1)) break;
+      if (!empty_element_parsed_guard_(builder_, "sentence_0", pos_)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
   // performStatement | stopStatement | displayStatement | computeStatement | addStatement | subtractStatement | multiplyStatement | divideStatement | moveStatement | acceptStatement | ifStatement
   public static boolean statement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "statement")) return false;
@@ -820,19 +834,19 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // STOP RUN DOT
+  // STOP RUN
   public static boolean stopStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "stopStatement")) return false;
     if (!nextTokenIs(builder_, STOP)) return false;
     boolean result_;
     Marker marker_ = enter_section_(builder_);
-    result_ = consumeTokens(builder_, 0, STOP, RUN, DOT);
+    result_ = consumeTokens(builder_, 0, STOP, RUN);
     exit_section_(builder_, marker_, STOP_STATEMENT, result_);
     return result_;
   }
 
   /* ********************************************************** */
-  // SUBTRACT arithmeticOperand FROM IDENTIFIER givingClause? DOT
+  // SUBTRACT arithmeticOperand FROM IDENTIFIER givingClause?
   public static boolean subtractStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "subtractStatement")) return false;
     if (!nextTokenIs(builder_, SUBTRACT)) return false;
@@ -842,7 +856,6 @@ public class CobolParser implements PsiParser, LightPsiParser {
     result_ = result_ && arithmeticOperand(builder_, level_ + 1);
     result_ = result_ && consumeTokens(builder_, 0, FROM, IDENTIFIER);
     result_ = result_ && subtractStatement_4(builder_, level_ + 1);
-    result_ = result_ && consumeToken(builder_, DOT);
     exit_section_(builder_, marker_, SUBTRACT_STATEMENT, result_);
     return result_;
   }

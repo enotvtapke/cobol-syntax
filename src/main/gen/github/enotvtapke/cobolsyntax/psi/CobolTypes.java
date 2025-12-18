@@ -41,6 +41,7 @@ public interface CobolTypes {
   IElementType PROGRAM_ID_PARAGRAPH = new CobolElementType("PROGRAM_ID_PARAGRAPH");
   IElementType RELATIONAL_OPERATOR = new CobolElementType("RELATIONAL_OPERATOR");
   IElementType RELATION_CONDITION = new CobolElementType("RELATION_CONDITION");
+  IElementType SENTENCE = new CobolElementType("SENTENCE");
   IElementType STATEMENT = new CobolElementType("STATEMENT");
   IElementType STOP_STATEMENT = new CobolElementType("STOP_STATEMENT");
   IElementType SUBTRACT_STATEMENT = new CobolElementType("SUBTRACT_STATEMENT");
@@ -203,6 +204,9 @@ public interface CobolTypes {
       }
       else if (type == RELATION_CONDITION) {
         return new CobolRelationConditionImpl(node);
+      }
+      else if (type == SENTENCE) {
+        return new CobolSentenceImpl(node);
       }
       else if (type == STATEMENT) {
         return new CobolStatementImpl(node);

@@ -44,16 +44,17 @@ pictureClause ::= PIC IS? PICTURE_STRING
 valueClause ::= VALUE literal
 literal ::= INTEGER | STRING
 
-procedureDivision ::= PROCEDURE DIVISION DOT paragraph*
-paragraph ::= paragraphName DOT statement*
+procedureDivision ::= PROCEDURE DIVISION DOT sentence* paragraph*
+paragraph ::= paragraphName DOT sentence*
+sentence ::= statement* DOT
 paragraphName ::= IDENTIFIER
 
 statement ::= performStatement | stopStatement | displayStatement | computeStatement | addStatement | subtractStatement | multiplyStatement | divideStatement | moveStatement | acceptStatement | ifStatement
 
-performStatement ::= PERFORM IDENTIFIER varyingClause? DOT?
+performStatement ::= PERFORM IDENTIFIER varyingClause?
 varyingClause ::= VARYING IDENTIFIER FROM (IDENTIFIER | literal) BY (IDENTIFIER | literal) UNTIL condition
 
-ifStatement ::= IF condition statement* elseClause? END_IF DOT?
+ifStatement ::= IF condition statement* elseClause? END_IF
 elseClause ::= ELSE statement*
 
 condition ::= andCondition (OR andCondition)*
@@ -62,22 +63,22 @@ notCondition ::= NOT? relationCondition
 relationCondition ::= arithmeticExpression relationalOperator arithmeticExpression
 relationalOperator ::= EQ | GT | LT | GE | LE | NE
 
-stopStatement ::= STOP RUN DOT
+stopStatement ::= STOP RUN
 
-displayStatement ::= DISPLAY (IDENTIFIER | literal)+ DOT
+displayStatement ::= DISPLAY (IDENTIFIER | literal)+
 
-computeStatement ::= COMPUTE IDENTIFIER EQ arithmeticExpression DOT
+computeStatement ::= COMPUTE IDENTIFIER EQ arithmeticExpression
 
-addStatement ::= ADD arithmeticOperand TO IDENTIFIER givingClause? DOT
-subtractStatement ::= SUBTRACT arithmeticOperand FROM IDENTIFIER givingClause? DOT
-multiplyStatement ::= MULTIPLY arithmeticOperand BY IDENTIFIER givingClause? DOT
-divideStatement ::= DIVIDE arithmeticOperand BY arithmeticOperand givingClause? DOT
+addStatement ::= ADD arithmeticOperand TO IDENTIFIER givingClause?
+subtractStatement ::= SUBTRACT arithmeticOperand FROM IDENTIFIER givingClause?
+multiplyStatement ::= MULTIPLY arithmeticOperand BY IDENTIFIER givingClause?
+divideStatement ::= DIVIDE arithmeticOperand BY arithmeticOperand givingClause?
 
 arithmeticOperand ::= INTEGER | IDENTIFIER
 givingClause ::= GIVING IDENTIFIER
 
-moveStatement ::= MOVE (IDENTIFIER | literal) TO IDENTIFIER DOT
-acceptStatement ::= ACCEPT IDENTIFIER DOT
+moveStatement ::= MOVE (IDENTIFIER | literal) TO IDENTIFIER
+acceptStatement ::= ACCEPT IDENTIFIER
 
 arithmeticExpression ::= additiveExpression
 
