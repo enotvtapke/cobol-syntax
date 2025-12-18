@@ -36,6 +36,7 @@ object CobolTokenSets {
         CobolTypes.MOVE,
         CobolTypes.ACCEPT,
         CobolTypes.IF,
+        CobolTypes.THEN,
         CobolTypes.ELSE,
         CobolTypes.END_IF,
         CobolTypes.NOT,

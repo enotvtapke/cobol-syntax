@@ -97,6 +97,7 @@ public interface CobolTypes {
   IElementType STOP = new CobolTokenType("STOP");
   IElementType STRING = new CobolTokenType("STRING");
   IElementType SUBTRACT = new CobolTokenType("SUBTRACT");
+  IElementType THEN = new CobolTokenType("THEN");
   IElementType TO = new CobolTokenType("TO");
   IElementType UNTIL = new CobolTokenType("UNTIL");
   IElementType VALUE = new CobolTokenType("VALUE");

@@ -66,6 +66,7 @@ PICTURE_STRING=(~[0-9ABCDPRSVXZa-z\*\+\-\/\,\.\;\(\)\=\'\"\ \n])? ({PICCHAR}+ {R
     "MOVE"                          { return CobolTypes.MOVE; }
     "ACCEPT"                        { return CobolTypes.ACCEPT; }
     "IF"                            { return CobolTypes.IF; }
+    "THEN"                          { return CobolTypes.THEN; }
     "ELSE"                          { return CobolTypes.ELSE; }
     "END-IF"                        { return CobolTypes.END_IF; }
     "NOT"                           { return CobolTypes.NOT; }

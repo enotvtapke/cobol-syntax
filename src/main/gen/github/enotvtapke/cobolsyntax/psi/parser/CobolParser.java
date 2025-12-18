@@ -410,7 +410,7 @@ public class CobolParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IF condition statement* elseClause? END_IF
+  // IF condition THEN statement* elseClause? END_IF
   public static boolean ifStatement(PsiBuilder builder_, int level_) {
     if (!recursion_guard_(builder_, level_, "ifStatement")) return false;
     if (!nextTokenIs(builder_, IF)) return false;
@@ -418,27 +418,28 @@ public class CobolParser implements PsiParser, LightPsiParser {
     Marker marker_ = enter_section_(builder_);
     result_ = consumeToken(builder_, IF);
     result_ = result_ && condition(builder_, level_ + 1);
-    result_ = result_ && ifStatement_2(builder_, level_ + 1);
+    result_ = result_ && consumeToken(builder_, THEN);
     result_ = result_ && ifStatement_3(builder_, level_ + 1);
+    result_ = result_ && ifStatement_4(builder_, level_ + 1);
     result_ = result_ && consumeToken(builder_, END_IF);
     exit_section_(builder_, marker_, IF_STATEMENT, result_);
     return result_;
   }
 
   // statement*
-  private static boolean ifStatement_2(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "ifStatement_2")) return false;
+  private static boolean ifStatement_3(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "ifStatement_3")) return false;
     while (true) {
       int pos_ = current_position_(builder_);
       if (!statement(builder_, level_ + 1)) break;
-      if (!empty_element_parsed_guard_(builder_, "ifStatement_2", pos_)) break;
+      if (!empty_element_parsed_guard_(builder_, "ifStatement_3", pos_)) break;
     }
     return true;
   }
 
   // elseClause?
-  private static boolean ifStatement_3(PsiBuilder builder_, int level_) {
-    if (!recursion_guard_(builder_, level_, "ifStatement_3")) return false;
+  private static boolean ifStatement_4(PsiBuilder builder_, int level_) {
+    if (!recursion_guard_(builder_, level_, "ifStatement_4")) return false;
     elseClause(builder_, level_ + 1);
     return true;
   }

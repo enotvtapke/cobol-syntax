@@ -54,7 +54,7 @@ statement ::= performStatement | stopStatement | displayStatement | computeState
 performStatement ::= PERFORM IDENTIFIER varyingClause?
 varyingClause ::= VARYING IDENTIFIER FROM (IDENTIFIER | literal) BY (IDENTIFIER | literal) UNTIL condition
 
-ifStatement ::= IF condition statement* elseClause? END_IF
+ifStatement ::= IF condition THEN statement* elseClause? END_IF
 elseClause ::= ELSE statement*
 
 condition ::= andCondition (OR andCondition)*
