@@ -44,6 +44,29 @@ class CobolLexerTest : LexerTestCase() {
         )
     }
 
+    fun testSeveralLines() {
+        doTest(
+            """
+            01 *> This is a comment
+            02 *> This is another comment
+            03 *> This is another comment
+            """.trimIndent(),
+            """
+            CobolTokenType.LINE_NUMBER ('01')
+            WHITE_SPACE (' ')
+            CobolTokenType.COMMENT ('*> This is a comment')
+            WHITE_SPACE ('\n')
+            CobolTokenType.LINE_NUMBER ('02')
+            WHITE_SPACE (' ')
+            CobolTokenType.COMMENT ('*> This is another comment')
+            WHITE_SPACE ('\n')
+            CobolTokenType.LINE_NUMBER ('03')
+            WHITE_SPACE (' ')
+            CobolTokenType.COMMENT ('*> This is another comment')
+            """.trimIndent()
+        )
+    }
+
     override fun createLexer(): Lexer = CobolLexerAdapter()
 
     override fun getDirPath(): String = "src/test/testData"

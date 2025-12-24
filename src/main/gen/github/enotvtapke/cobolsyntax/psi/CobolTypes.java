@@ -57,6 +57,7 @@ public interface CobolTypes {
   IElementType ACCEPT = new CobolTokenType("ACCEPT");
   IElementType ADD = new CobolTokenType("ADD");
   IElementType AND = new CobolTokenType("AND");
+  IElementType BAD_LINE_NUMBER = new CobolTokenType("BAD_LINE_NUMBER");
   IElementType BY = new CobolTokenType("BY");
   IElementType COMMENT = new CobolTokenType("COMMENT");
   IElementType COMPUTE = new CobolTokenType("COMPUTE");

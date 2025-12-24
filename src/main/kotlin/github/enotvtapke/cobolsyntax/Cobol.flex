@@ -50,10 +50,10 @@ PICTURE_STRING=(\~[0-9ABCDPRSVXZa-z\*\+\-\/\,\.\;\(\)\=\'\"\ \n])?({PICCHAR}+ {R
                                            yybegin(AFTER_LINE_NUMBER);
                                            return CobolTypes.LINE_NUMBER;
                                        } else {
-                                           return TokenType.BAD_CHARACTER;
+                                           return CobolTypes.BAD_LINE_NUMBER;
                                        }
                                     }
-    [^]                             { return TokenType.BAD_CHARACTER; }
+    [^]                             { return CobolTypes.BAD_LINE_NUMBER; }
 }
 
 <AFTER_LINE_NUMBER> {

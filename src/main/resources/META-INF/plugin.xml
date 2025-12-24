@@ -33,5 +33,8 @@
                 implementationClass="github.enotvtapke.cobolsyntax.CobolSyntaxHighlighterFactory"/>
         <colorSettingsPage
                 implementation="github.enotvtapke.cobolsyntax.CobolColorSettingsPage"/>
+        <annotator
+                language="Cobol"
+                implementationClass="github.enotvtapke.cobolsyntax.CobolAnnotator"/>
     </extensions>
 </idea-plugin>

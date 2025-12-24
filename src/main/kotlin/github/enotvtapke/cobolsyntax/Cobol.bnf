@@ -15,6 +15,7 @@
   tokens = [
     COMMENT = "COMMENT"
     LINE_NUMBER = "LINE_NUMBER"
+    BAD_LINE_NUMBER = "BAD_LINE_NUMBER"
   ]
 }
 

@@ -9,6 +9,7 @@ import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 import github.enotvtapke.cobolsyntax.psi.CobolTokenSets
+import github.enotvtapke.cobolsyntax.psi.CobolTypes
 
 class CobolSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer = CobolLexerAdapter()
@@ -25,6 +26,7 @@ class CobolSyntaxHighlighter : SyntaxHighlighterBase() {
             CobolTokenSets.PICTURE_STRINGS.contains(tokenType) -> PICTURE_STRING_KEYS
             tokenType in CobolTokenSets.LINE_NUMBERS -> LINE_NUMBER_KEYS
             tokenType == TokenType.BAD_CHARACTER -> BAD_CHAR_KEYS
+            tokenType == CobolTypes.BAD_LINE_NUMBER -> BAD_CHAR_KEYS
             else -> EMPTY_KEYS
         }
     }
