@@ -873,7 +873,7 @@ class CobolLexer implements FlexLexer {
           // fall through
           case 66: break;
           case 5:
-            { return CobolTypes.BAD_LINE_NUMBER;
+            { yybegin(AFTER_LINE_NUMBER); yypushback(1); return CobolTypes.BAD_LINE_NUMBER;
             }
           // fall through
           case 67: break;
@@ -884,6 +884,8 @@ class CobolLexer implements FlexLexer {
                                            yybegin(AFTER_LINE_NUMBER);
                                            return CobolTypes.LINE_NUMBER;
                                        } else {
+                                           yybegin(AFTER_LINE_NUMBER);
+                                           expectedLineNumber = parsedNumber + 1;
                                            return CobolTypes.BAD_LINE_NUMBER;
                                        }
             }

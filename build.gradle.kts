@@ -77,4 +77,12 @@ tasks {
         pathToPsiRoot.set("github/enotvtapke/cobolsyntax/psi")
         purgeOldFiles.set(true)
     }
+
+    compileKotlin {
+        dependsOn(generateLexer, generateParser)
+    }
+
+    compileJava {
+        dependsOn(generateLexer, generateParser)
+    }
 }
