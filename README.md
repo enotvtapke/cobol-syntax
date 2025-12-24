@@ -7,6 +7,6 @@ Every line of a source file should be prepended with a line number. Line numbers
 with each new line. Even empty lines should be prepended with a line number. This logic is implemented as part of the
 lexer.
 
-Open project in IntelliJ IDEA and run configuration `Run IDE with Plugin` to see highlighting in action.
+Open project in IntelliJ IDEA and run configuration `Run IDE with Plugin` to see highlighting in action.  
 Use `./gradlew generateLexer` to regenerate lexer.  
 Use `./gradlew generateParser` to regenerate parser.
