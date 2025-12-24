@@ -1,161 +1,161 @@
-*> Tests all implemented features
-
-IDENTIFICATION DIVISION.
-
-PROGRAM-ID. SYNTAX-TEST.
-
-DATA DIVISION.
-
-WORKING-STORAGE SECTION.
-
-01 WS-A PIC 9(2) VALUE 0.
-01 WS-B PIC 9(4) VALUE 100.
-01 WS-C PIC 9(3) VALUE 50.
-01 WS-NAME PIC X(20) VALUE 'HELLO COBOL'.
-01 WS-RESULT PIC 9(6) VALUE 0.
-
-PROCEDURE DIVISION.
-
-MAIN-PARA.
-    *> Basic DISPLAY statement
-    DISPLAY 'Starting program'.
-    DISPLAY WS-NAME.
-    DISPLAY 'Value: ' WS-A.
-
-    *> ACCEPT statement
-    ACCEPT WS-A.
-
-    *> MOVE statement
-    MOVE 10 TO WS-A.
-    MOVE WS-B TO WS-C.
-    MOVE 'TEST' TO WS-NAME.
-
-    *> COMPUTE with arithmetic expressions (operator priority)
-    COMPUTE WS-RESULT = 2 + 3 * 4.
-    COMPUTE WS-RESULT = (2 + 3) * 4.
-    COMPUTE WS-RESULT = WS-A + WS-B * WS-C.
-    COMPUTE WS-RESULT = 2 ** 3 + 4 * 5 - 10 / 2.
-    COMPUTE WS-RESULT = ((WS-A + WS-B) * WS-C) / 2.
-    COMPUTE WS-RESULT = -WS-A + +WS-B.
-
-    *> ADD statement
-    ADD 5 TO WS-A.
-    ADD WS-B TO WS-C.
-    ADD 10 TO WS-A GIVING WS-RESULT.
-
-    *> SUBTRACT statement
-    SUBTRACT 3 FROM WS-A.
-    SUBTRACT WS-B FROM WS-C.
-    SUBTRACT 5 FROM WS-A GIVING WS-RESULT.
-
-    *> MULTIPLY statement
-    MULTIPLY 2 BY WS-A.
-    MULTIPLY WS-B BY WS-C.
-    MULTIPLY 3 BY WS-A GIVING WS-RESULT.
-
-    *> DIVIDE statement
-    DIVIDE 10 BY 2 GIVING WS-RESULT.
-    DIVIDE WS-B BY WS-C GIVING WS-RESULT.
-
-    *> IF statement with relation conditions
-    IF WS-A = 10 THEN
-        DISPLAY 'A equals 10'
-    END-IF.
-
-    IF WS-A > WS-B THEN
-        DISPLAY 'A is greater'
-    ELSE
-        DISPLAY 'B is greater or equal'
-    END-IF.
-
-    IF WS-A < 100 THEN
-        DISPLAY 'A is less than 100'
-    END-IF.
-
-    IF WS-A >= 5 THEN
-        DISPLAY 'A is >= 5'
-    END-IF.
-
-    IF WS-A <= 20 THEN
-        DISPLAY 'A is <= 20'
-    END-IF.
-
-    IF WS-A <> 0 THEN
-        DISPLAY 'A is not zero'
-    END-IF.
-
-    *> IF with logical operators AND, OR, NOT
-    IF WS-A > 0 AND WS-B > 0 THEN
-        DISPLAY 'Both positive'
-    END-IF.
-
-    IF WS-A = 0 OR WS-B = 0 THEN
-        DISPLAY 'At least one is zero'
-    END-IF.
-
-    IF NOT WS-A = 0 THEN
-        DISPLAY 'A is not zero'
-    END-IF.
-
-    IF WS-A > 0 AND WS-B > 0 OR WS-C > 0 THEN
-        DISPLAY 'Complex condition'
-    END-IF.
-
-    IF NOT WS-A = 0 AND NOT WS-B = 0 THEN
-        DISPLAY 'Neither is zero'
-    END-IF.
-
-    *> Basic PERFORM
-    PERFORM PROCESS-PARA.
-
-    *> PERFORM THRU
-    PERFORM PROCESS-PARA THRU END-PARA.
-    PERFORM PROCESS-PARA THROUGH END-PARA.
-
-    *> PERFORM UNTIL
-    PERFORM PROCESS-PARA UNTIL WS-A > 100.
-
-    *> PERFORM THRU with UNTIL
-    PERFORM PROCESS-PARA THRU END-PARA UNTIL WS-A >= 50.
-
-    *> PERFORM VARYING
-    PERFORM PROCESS-PARA VARYING WS-A FROM 1 BY 1 UNTIL WS-A > 10.
-    PERFORM PROCESS-PARA VARYING WS-A FROM WS-B BY 2 UNTIL WS-A >= WS-C.
-
-    *> Inline PERFORM
-    PERFORM
-        DISPLAY 'Inline perform'
-        ADD 1 TO WS-A
-    END-PERFORM.
-
-    *> Inline PERFORM UNTIL
-    PERFORM UNTIL WS-A > 20
-        DISPLAY WS-A
-        ADD 1 TO WS-A
-    END-PERFORM.
-
-    *> Inline PERFORM VARYING
-    PERFORM VARYING WS-A FROM 1 BY 2 UNTIL WS-A > 10
-        DISPLAY 'Counter: ' WS-A
-        COMPUTE WS-RESULT = WS-A * 2
-    END-PERFORM.
-
-    *> Nested IF statements
-    IF WS-A > 0 THEN
-        IF WS-B > 0 THEN
-            DISPLAY 'Both A and B positive'
-        ELSE
-            DISPLAY 'A positive, B not'
-        END-IF
-    ELSE
-        DISPLAY 'A not positive'
-    END-IF.
-
-    STOP RUN.
-
-PROCESS-PARA.
-    DISPLAY 'Processing...'.
-    ADD 1 TO WS-A.
-
-END-PARA.
-    DISPLAY 'End of processing'.
+001 *> Tests all implemented features
+002 
+003 IDENTIFICATION DIVISION.
+004 
+005 PROGRAM-ID. SYNTAX-TEST.
+006 
+007 DATA DIVISION.
+008 
+009 WORKING-STORAGE SECTION.
+010 
+011 01 WS-A PIC 9(2) VALUE 0.
+012 01 WS-B PIC 9(4) VALUE 100.
+013 01 WS-C PIC 9(3) VALUE 50.
+014 01 WS-NAME PIC X(20) VALUE 'HELLO COBOL'.
+015 01 WS-RESULT PIC 9(6) VALUE 0.
+016 
+017 PROCEDURE DIVISION.
+018 
+019 MAIN-PARA.
+020     *> Basic DISPLAY statement
+021     DISPLAY 'Starting program'.
+022     DISPLAY WS-NAME.
+023     DISPLAY 'Value: ' WS-A.
+024 
+025     *> ACCEPT statement
+026     ACCEPT WS-A.
+027 
+028     *> MOVE statement
+029     MOVE 10 TO WS-A.
+030     MOVE WS-B TO WS-C.
+031     MOVE 'TEST' TO WS-NAME.
+032 
+033     *> COMPUTE with arithmetic expressions (operator priority)
+034     COMPUTE WS-RESULT = 2 + 3 * 4.
+035     COMPUTE WS-RESULT = (2 + 3) * 4.
+036     COMPUTE WS-RESULT = WS-A + WS-B * WS-C.
+037     COMPUTE WS-RESULT = 2 ** 3 + 4 * 5 - 10 / 2.
+038     COMPUTE WS-RESULT = ((WS-A + WS-B) * WS-C) / 2.
+039     COMPUTE WS-RESULT = -WS-A + +WS-B.
+040 
+041     *> ADD statement
+042     ADD 5 TO WS-A.
+043     ADD WS-B TO WS-C.
+044     ADD 10 TO WS-A GIVING WS-RESULT.
+045 
+046     *> SUBTRACT statement
+047     SUBTRACT 3 FROM WS-A.
+048     SUBTRACT WS-B FROM WS-C.
+049     SUBTRACT 5 FROM WS-A GIVING WS-RESULT.
+050 
+051     *> MULTIPLY statement
+052     MULTIPLY 2 BY WS-A.
+053     MULTIPLY WS-B BY WS-C.
+054     MULTIPLY 3 BY WS-A GIVING WS-RESULT.
+055 
+056     *> DIVIDE statement
+057     DIVIDE 10 BY 2 GIVING WS-RESULT.
+058     DIVIDE WS-B BY WS-C GIVING WS-RESULT.
+059 
+060     *> IF statement with relation conditions
+061     IF WS-A = 10 THEN
+062         DISPLAY 'A equals 10'
+063     END-IF.
+064 
+065     IF WS-A > WS-B THEN
+066         DISPLAY 'A is greater'
+067     ELSE
+068         DISPLAY 'B is greater or equal'
+069     END-IF.
+070 
+071     IF WS-A < 100 THEN
+072         DISPLAY 'A is less than 100'
+073     END-IF.
+074 
+075     IF WS-A >= 5 THEN
+076         DISPLAY 'A is >= 5'
+077     END-IF.
+078 
+079     IF WS-A <= 20 THEN
+080         DISPLAY 'A is <= 20'
+081     END-IF.
+082 
+083     IF WS-A <> 0 THEN
+084         DISPLAY 'A is not zero'
+085     END-IF.
+086 
+087     *> IF with logical operators AND, OR, NOT
+088     IF WS-A > 0 AND WS-B > 0 THEN
+089         DISPLAY 'Both positive'
+090     END-IF.
+091 
+092     IF WS-A = 0 OR WS-B = 0 THEN
+093         DISPLAY 'At least one is zero'
+094     END-IF.
+095 
+096     IF NOT WS-A = 0 THEN
+097         DISPLAY 'A is not zero'
+098     END-IF.
+099 
+100     IF WS-A > 0 AND WS-B > 0 OR WS-C > 0 THEN
+101         DISPLAY 'Complex condition'
+102     END-IF.
+103 
+104     IF NOT WS-A = 0 AND NOT WS-B = 0 THEN
+105         DISPLAY 'Neither is zero'
+106     END-IF.
+107 
+108     *> Basic PERFORM
+109     PERFORM PROCESS-PARA.
+110 
+111     *> PERFORM THRU
+112     PERFORM PROCESS-PARA THRU END-PARA.
+113     PERFORM PROCESS-PARA THROUGH END-PARA.
+114 
+115     *> PERFORM UNTIL
+116     PERFORM PROCESS-PARA UNTIL WS-A > 100.
+117 
+118     *> PERFORM THRU with UNTIL
+119     PERFORM PROCESS-PARA THRU END-PARA UNTIL WS-A >= 50.
+120 
+121     *> PERFORM VARYING
+122     PERFORM PROCESS-PARA VARYING WS-A FROM 1 BY 1 UNTIL WS-A > 10.
+123     PERFORM PROCESS-PARA VARYING WS-A FROM WS-B BY 2 UNTIL WS-A >= WS-C.
+124 
+125     *> Inline PERFORM
+126     PERFORM
+127         DISPLAY 'Inline perform'
+128         ADD 1 TO WS-A
+129     END-PERFORM.
+130 
+131     *> Inline PERFORM UNTIL
+132     PERFORM UNTIL WS-A > 20
+133         DISPLAY WS-A
+134         ADD 1 TO WS-A
+135     END-PERFORM.
+136 
+137     *> Inline PERFORM VARYING
+138     PERFORM VARYING WS-A FROM 1 BY 2 UNTIL WS-A > 10
+139         DISPLAY 'Counter: ' WS-A
+140         COMPUTE WS-RESULT = WS-A * 2
+141     END-PERFORM.
+142 
+143     *> Nested IF statements
+144     IF WS-A > 0 THEN
+145         IF WS-B > 0 THEN
+146             DISPLAY 'Both A and B positive'
+147         ELSE
+148             DISPLAY 'A positive, B not'
+149         END-IF
+150     ELSE
+151         DISPLAY 'A not positive'
+152     END-IF.
+153 
+154     STOP RUN.
+155 
+156 PROCESS-PARA.
+157     DISPLAY 'Processing...'.
+158     ADD 1 TO WS-A.
+159 
+160 END-PARA.
+161     DISPLAY 'End of processing'.

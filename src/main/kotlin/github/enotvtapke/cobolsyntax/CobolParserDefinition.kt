@@ -44,6 +44,9 @@ class CobolParserDefinition : ParserDefinition {
         return CobolTypes.Factory.createElement(node)
     }
 
+    override fun getWhitespaceTokens(): TokenSet {
+        return TokenSet.orSet(super.getWhitespaceTokens(), CobolTokenSets.LINE_NUMBERS)
+    }
 }
 
 val FILE = IFileElementType(CobolLanguage)

@@ -16,6 +16,10 @@ import com.intellij.psi.TokenType;
 %eof{  return;
 %eof}
 
+%{
+    private int expectedLineNumber = 1;
+%}
+
 WHITE_SPACE=[ \t]+
 CRLF=\R
 LINE_COMMENT=\*>.*
@@ -28,12 +32,33 @@ REPEAT = \([0-9]+\)
 PICTURE_STRING=(\~[0-9ABCDPRSVXZa-z\*\+\-\/\,\.\;\(\)\=\'\"\ \n])?({PICCHAR}+ {REPEAT}?)+([\/\,\.\:]({PICCHAR}+ {REPEAT}?)+)*
 
 %state WAITING_PICTURE
+%state BEFORE_LINE_NUMBER
+%state AFTER_LINE_NUMBER
 
 %%
 
 <YYINITIAL> {
+    [^]                             { expectedLineNumber = 1; yypushback(1); yybegin(BEFORE_LINE_NUMBER); }
+}
+
+<BEFORE_LINE_NUMBER> {
     {WHITE_SPACE}                   { return TokenType.WHITE_SPACE; }
-    {CRLF}                          { return TokenType.WHITE_SPACE; }
+    {INTEGER}                       {
+                                       int parsedNumber = Integer.parseInt(yytext().toString());
+                                       if (parsedNumber == expectedLineNumber) {
+                                           expectedLineNumber++;
+                                           yybegin(AFTER_LINE_NUMBER);
+                                           return CobolTypes.LINE_NUMBER;
+                                       } else {
+                                           return TokenType.BAD_CHARACTER;
+                                       }
+                                    }
+    [^]                             { return TokenType.BAD_CHARACTER; }
+}
+
+<AFTER_LINE_NUMBER> {
+    {WHITE_SPACE}                   { return TokenType.WHITE_SPACE; }
+    {CRLF}                          { yybegin(BEFORE_LINE_NUMBER); return TokenType.WHITE_SPACE; }
     {LINE_COMMENT}                  { return CobolTypes.COMMENT; }
 
     "IDENTIFICATION"                { return CobolTypes.IDENTIFICATION; }
@@ -102,6 +127,6 @@ PICTURE_STRING=(\~[0-9ABCDPRSVXZa-z\*\+\-\/\,\.\;\(\)\=\'\"\ \n])?({PICCHAR}+ {R
 <WAITING_PICTURE> {
     {WHITE_SPACE}                   { return TokenType.WHITE_SPACE; }
     "IS"                            { return CobolTypes.IS; }
-    {PICTURE_STRING}                { yybegin(YYINITIAL); return CobolTypes.PICTURE_STRING; }
-    [^]                             { yybegin(YYINITIAL); yypushback(1); }
+    {PICTURE_STRING}                { yybegin(AFTER_LINE_NUMBER); return CobolTypes.PICTURE_STRING; }
+    [^]                             { yybegin(AFTER_LINE_NUMBER); yypushback(1); }
 }

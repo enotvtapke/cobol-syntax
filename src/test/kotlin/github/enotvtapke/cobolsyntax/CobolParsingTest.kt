@@ -20,6 +20,10 @@ class CobolParsingTest : ParsingTestCase("", "cbl", CobolParserDefinition()) {
         doTest(true)
     }
 
+    fun testExample() {
+        doTest(true)
+    }
+
     fun testAllFeatures() {
         doTest(true)
     }

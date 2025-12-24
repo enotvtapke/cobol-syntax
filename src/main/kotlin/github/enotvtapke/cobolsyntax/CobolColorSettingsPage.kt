@@ -57,6 +57,7 @@ private val DESCRIPTORS = arrayOf(
     AttributesDescriptor("Keyword", CobolSyntaxHighlighter.KEYWORD),
     AttributesDescriptor("String", CobolSyntaxHighlighter.STRING),
     AttributesDescriptor("Number", CobolSyntaxHighlighter.NUMBER),
+    AttributesDescriptor("Line number", CobolSyntaxHighlighter.LINE_NUMBER),
     AttributesDescriptor("Comment", CobolSyntaxHighlighter.COMMENT),
     AttributesDescriptor("Identifier", CobolSyntaxHighlighter.IDENTIFIER),
     AttributesDescriptor("Operator", CobolSyntaxHighlighter.OPERATOR),

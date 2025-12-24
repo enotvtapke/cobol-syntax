@@ -7,6 +7,8 @@ object CobolTokenSets {
 
     val COMMENTS: TokenSet = TokenSet.create(CobolTypes.COMMENT)
 
+    val LINE_NUMBERS: TokenSet = TokenSet.create(CobolTypes.LINE_NUMBER)
+
     val KEYWORDS: TokenSet = TokenSet.create(
         CobolTypes.IDENTIFICATION,
         CobolTypes.DIVISION,

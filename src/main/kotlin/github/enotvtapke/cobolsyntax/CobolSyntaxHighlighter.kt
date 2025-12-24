@@ -23,6 +23,7 @@ class CobolSyntaxHighlighter : SyntaxHighlighterBase() {
             CobolTokenSets.OPERATORS.contains(tokenType) -> OPERATOR_KEYS
             CobolTokenSets.PUNCTUATION.contains(tokenType) -> PUNCTUATION_KEYS
             CobolTokenSets.PICTURE_STRINGS.contains(tokenType) -> PICTURE_STRING_KEYS
+            tokenType in CobolTokenSets.LINE_NUMBERS -> LINE_NUMBER_KEYS
             tokenType == TokenType.BAD_CHARACTER -> BAD_CHAR_KEYS
             else -> EMPTY_KEYS
         }
@@ -44,6 +45,10 @@ class CobolSyntaxHighlighter : SyntaxHighlighterBase() {
         val COMMENT: TextAttributesKey = createTextAttributesKey(
             "COBOL_COMMENT",
             DefaultLanguageHighlighterColors.LINE_COMMENT
+        )
+        val LINE_NUMBER: TextAttributesKey = createTextAttributesKey(
+            "COBOL_LINE_NUMBER",
+            DefaultLanguageHighlighterColors.DOC_COMMENT
         )
         val IDENTIFIER: TextAttributesKey = createTextAttributesKey(
             "COBOL_IDENTIFIER",
@@ -70,6 +75,7 @@ class CobolSyntaxHighlighter : SyntaxHighlighterBase() {
         private val STRING_KEYS = arrayOf(STRING)
         private val NUMBER_KEYS = arrayOf(NUMBER)
         private val COMMENT_KEYS = arrayOf(COMMENT)
+        private val LINE_NUMBER_KEYS = arrayOf(LINE_NUMBER)
         private val IDENTIFIER_KEYS = arrayOf(IDENTIFIER)
         private val OPERATOR_KEYS = arrayOf(OPERATOR)
         private val PUNCTUATION_KEYS = arrayOf(PUNCTUATION)

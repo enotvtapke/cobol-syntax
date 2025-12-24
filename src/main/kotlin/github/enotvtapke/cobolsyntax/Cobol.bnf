@@ -13,19 +13,8 @@
   tokenTypeClass="github.enotvtapke.cobolsyntax.psi.CobolTokenType"
 
   tokens = [
-    LPAREN = "("
-    RPAREN = ")"
     COMMENT = "COMMENT"
-    POWER = "**"
-    PLUS = "+"
-    MINUS = "-"
-    STAR = "*"
-    SLASH = "/"
-    GE = ">="
-    LE = "<="
-    NE = "<>"
-    GT = ">"
-    LT = "<"
+    LINE_NUMBER = "LINE_NUMBER"
   ]
 }
 

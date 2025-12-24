@@ -7,8 +7,10 @@ class CobolLexerTest : LexerTestCase() {
 
     fun testLiterals() {
         doTest(
-            "123 'HELLO' WS-NAME",
+            "01 123 'HELLO' WS-NAME",
             """
+            CobolTokenType.LINE_NUMBER ('01')
+            WHITE_SPACE (' ')
             CobolTokenType.INTEGER ('123')
             WHITE_SPACE (' ')
             CobolTokenType.STRING (''HELLO'')
@@ -20,8 +22,10 @@ class CobolLexerTest : LexerTestCase() {
 
     fun testPictureClause() {
         doTest(
-            "PIC 9(2)",
+            "01 PIC 9(2)",
             """
+            CobolTokenType.LINE_NUMBER ('01')
+            WHITE_SPACE (' ')
             CobolTokenType.PIC ('PIC')
             WHITE_SPACE (' ')
             CobolTokenType.PICTURE_STRING ('9(2)')
@@ -31,8 +35,10 @@ class CobolLexerTest : LexerTestCase() {
 
     fun testComment() {
         doTest(
-            "*> This is a comment",
+            "01 *> This is a comment",
             """
+            CobolTokenType.LINE_NUMBER ('01')
+            WHITE_SPACE (' ')
             CobolTokenType.COMMENT ('*> This is a comment')
             """.trimIndent()
         )
